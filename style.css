@@ -1,3 +1,31 @@
 body {
+  background-color: white;
+}
+
+.container {
+  display: inline-block;
+  position: relative;
+}
+.background {
+  background-image: url(./assets/img/backgroundMap2.png);
   background-color: black;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: inline-block;
+  opacity: 0;
+}
+
+.battleBackgroundOn {
+  background-image: url(./assets/img/battleBackground.png);
+  background-color: black;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: inline-block;
+  opacity: 0;
 }

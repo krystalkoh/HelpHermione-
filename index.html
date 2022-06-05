@@ -8,13 +8,16 @@
     <link href="style.css" rel="stylesheet" />
   </head>
   <body>
-    <canvas>
-      <img src="./assets/img/backgroundMap2.png" id="background" />
-
-      <img src="./assets/img/singleHermione.png" id="hermioneDown" />
-      <img src="./assets/img/mandrake.png" id="mandrake" />
-    </canvas>
-
+    <div class="container">
+      <div class="battleBackgroundOn"></div>
+      <canvas>
+        <!-- <img src="./assets/img/backgroundMap.png" class="background" />
+        <img src="./assets/img/singleHermione.png" id="hermioneDown" />
+        <img src="./assets/img/mandrake.png" id="mandrake" /> -->
+      </canvas>
+    </div>
+    <script src="collisions.js" charset="utf-8"></script>
+    <script src="battleZone.js" charset="utf-8"></script>
     <script src="script.js" charset="utf-8"></script>
   </body>
 </html>
