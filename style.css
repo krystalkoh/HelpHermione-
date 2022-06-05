@@ -19,8 +19,8 @@ body {
 }
 
 .battleBackgroundOn {
-  background-image: url(./assets/img/battleBackground.png);
-  background-color: black;
+  background-image: url(./assets/img/battleBackground2.png);
+  background-color: white;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -28,4 +28,5 @@ body {
   left: 0;
   display: inline-block;
   opacity: 0;
+  background-repeat: no-repeat;
 }

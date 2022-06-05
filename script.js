@@ -4,85 +4,21 @@ const context = canvas.getContext("2d");
 //creating the canvas
 canvas.width = 1024;
 canvas.height = 576;
-////////colliding zone///////////
-// creating collisions array
-// const collisionsMap = [];
-// for (let i = 0; i < collisions.length; i += 70) {
-//   collisionsMap.push(collisions.slice(i, 70 + i));
-// }
-// console.log(collisionsMap);
 
-/////////drawing boundaries/////////
-// class Boundary {
-//   static width = 48;
-//   static height = 48;
-//   constructor({ position }) {
-//     (this.position = position), (this.width = 48), (this.height = 48);
-//   }
-
-//   draw() {
-//     context.fillStyle = "rgba(255,0,0,0.5)";
-//     context.fillRect(this.position.x, this.position.y, 48, 48);
-//   }
-// }
-
-// const boundaries = [];
 const offset = {
   x: -1000,
   y: -650,
 };
-////////colliding zone///////////
-// //looping over each row, i=index of the subarray
-// collisionsMap.forEach((row, i) => {
-//   //within each row, j=index that is looping over each symbol [0,1,0]
-//   row.forEach((symbol, j) => {
-//     //so that only pushing in boundaries that i want 1025
-//     if (symbol === 1025)
-//       boundaries.push(
-//         new Boundary({
-//           position: {
-//             x: j * Boundary.width + offset.x,
-//             y: i * Boundary.height + offset.y,
-//           },
-//         })
-//       );
-//   });
-// });
 
-// console.log(boundaries);
-
-// const battleZonesMap = [];
-// for (let i = 0; i < battleZoneArr.length; i += 70) {
-//   battleZonesMap.push(battleZoneArr.slice(i, 70 + i));
-// }
-
-////////battlezone///////////
-// const battleZones = [];
-// battleZonesMap.forEach((row, i) => {
-//   row.forEach((symbol, j) => {
-//     if (symbol === 1025)
-//       battleZones.push(
-//         new Boundary({
-//           position: {
-//             x: j * Boundary.width + offset.x,
-//             y: i * Boundary.height + offset.y,
-//           },
-//         })
-//       );
-//   });
-// });
-// console.log(battleZones);
 //drawing image in canvas
-// const backgroundImg = document.querySelector(".background");
+
 const backgroundImg = document.createElement("img");
 backgroundImg.src = "./assets/img/backgroundMap.png";
-// context.drawImage(backgroundImg, -1100, -630);
-// const hermione = document.getElementById("hermioneDown");
 const hermione = document.createElement("img");
-hermione.src = "./assets/img/singleHermione.png";
+hermione.src = "./assets/img/singleHermione2.png";
 
 //drawing hermione sprite in canvas
-class SpriteMoving {
+class backgroundClass {
   constructor({ image, position }) {
     this.image = image;
     this.position = position;
@@ -92,28 +28,84 @@ class SpriteMoving {
   }
 }
 
-class Enemy {
-  constructor({ image, position }) {
-    (this.image = image), (this.position = position);
+class Sprite {
+  //   static width = 53;
+  //   static height = 60;
+  constructor({ image, position, width = 60, height = 70 }) {
+    this.image = image;
+    this.position = position;
+    this.width = this.image.width;
+    this.height = this.image.height;
   }
   draw() {
-    context.drawImage(this.image, this.position.x, this.position.y);
+    context.drawImage(
+      this.image,
+      0,
+      0,
+      this.image.width,
+      this.image.height,
+      this.position.x,
+      this.position.y,
+      this.image.width,
+      this.image.height
+    );
   }
 }
+
+class Enemy {
+  constructor({ image, position, width, height }) {
+    (this.image = image),
+      (this.position = position),
+      (this.width = width),
+      (this.height = height);
+  }
+  draw() {
+    context.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
+  }
+}
+
+class Boundary {
+  constructor({ position }) {
+    (this.position = position), (this.width = 60), (this.height = 60);
+  }
+
+  draw() {
+    context.fillStyle = "rgba(255,0,0,0.5)";
+    context.fillRect(this.position.x, this.position.y, 48, 48);
+  }
+}
+
+const testBoundary = new Boundary({
+  position: { x: 205, y: 300 },
+});
+
 const mandrakeImg = document.createElement("img");
 mandrakeImg.src = "./assets/img/mandrake.png";
 
 const mandrake = new Enemy({
   image: mandrakeImg,
-  position: { x: 400, y: 300 },
+  position: { x: 200, y: 300 },
+  width: 60,
+  height: 60,
 });
 
-const player = new SpriteMoving({
-  position: { x: 444, y: 250 },
+const player = new Sprite({
+  position: {
+    x: canvas.width - 300,
+    y: canvas.height - 300,
+  },
   image: hermione,
+  //   width: this.width,
+  //   height: this.height,
 });
 //creating background moving class
-const background = new SpriteMoving({
+const background = new backgroundClass({
   image: backgroundImg,
   position: { x: offset.x, y: offset.y },
 });
@@ -125,7 +117,7 @@ const keys = {
   ArrowRight: { pressed: false },
 };
 ////// insert ...battleZones below////
-const movables = [background, mandrake];
+// const movables = [background, mandrake];
 
 //creating movables array
 function animate() {
@@ -135,29 +127,70 @@ function animate() {
   //   battleZones.forEach((battleZone) => {
   //     battleZone.draw();
   //   });
-  player.draw();
   mandrake.draw();
+  player.draw();
+  testBoundary.draw();
+
+  if (
+    player.position.x + player.width >= testBoundary.position.x &&
+    player.position.x <= testBoundary.position.x + testBoundary.width
+  ) {
+    console.log("colliding");
+  }
 
   if (keys.ArrowUp.pressed) {
-    movables.forEach((movable) => {
-      movable.position.y += 3;
-    });
+    (background.position.y += 3),
+      (mandrake.position.y += 3),
+      (testBoundary.position.y += 3);
   } else if (keys.ArrowDown.pressed) {
-    movables.forEach((movable) => {
-      movable.position.y -= 3;
-    });
+    (background.position.y -= 3),
+      (mandrake.position.y -= 3),
+      (testBoundary.position.y -= 3);
   } else if (keys.ArrowLeft.pressed) {
-    movables.forEach((movable) => {
-      movable.position.x += 3;
-    });
+    (background.position.x += 3),
+      (mandrake.position.x += 3),
+      (testBoundary.position.x += 3);
   } else if (keys.ArrowRight.pressed) {
-    movables.forEach((movable) => {
-      movable.position.x -= 3;
-    });
+    (background.position.x -= 3),
+      (mandrake.position.x -= 3),
+      (testBoundary.position.x -= 3);
   }
-}
 
+  function collision(rect1, rect2) {
+    const left1 = rect1.position.x;
+    const top1 = rect1.position.y;
+    const right1 = rect1.position.x + this.width;
+    const bottom1 = rect1.position.y + this.height;
+
+    // const myLeft = this.aLeft;
+    // const myRight = this.aRight;
+    // const myTop = this.aTop;
+    // const myBottom = this.aBottom;
+
+    const left2 = rect2.position.x;
+    const top2 = rect2.position.y;
+    const right2 = rect2.position.x + this.width;
+    const bottom2 = rect2.position.y + this.height;
+    // const otherLeft = this.bLeft;
+    // const otherRight = this.bRight;
+    // const otherBottom = this.bBottom;
+    // const otherTop = this.bTop;
+
+    if (bottom1 < top2) console.log("collide");
+    if (top1 > bottom2) console.log("collide");
+    if (right1 < left2) console.log("collide");
+    if (left1 > right2) console.log("collide");
+    // console.log("did not collide");
+  }
+  //   console.log(player.position.x);
+  //   console.log(mandrake.position.x);
+  collision(player, testBoundary);
+  //   console.log(mandrake.position.x);
+  //   console.log(player.position.x);
+}
+//mandrake position changes, but hermione position always stays at 444
 animate();
+
 // beast();
 //when keys are key down
 window.addEventListener("keydown", (e) => {
@@ -171,6 +204,7 @@ window.addEventListener("keydown", (e) => {
     keys.ArrowLeft.pressed = true;
   }
 });
+
 //when keys are keyup
 window.addEventListener("keyup", (e) => {
   if (e.key === "ArrowDown") {
