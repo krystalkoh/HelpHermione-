@@ -40,4 +40,5 @@ body {
   display: inline-block;
   opacity: 1;
   background-repeat: no-repeat;
+  transition: 2s ease-in-out;
 }
