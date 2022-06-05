@@ -119,6 +119,15 @@ const keys = {
 ////// insert ...battleZones below////
 // const movables = [background, mandrake];
 
+function activateBattle() {
+  const element = document.querySelector(".battleBackgroundOff");
+  element.classList.toggle("battleBackgroundOn");
+}
+
+const battle = {
+  initiated: false,
+};
+
 //creating movables array
 function animate() {
   //adding infinite loop so character can move
@@ -131,11 +140,16 @@ function animate() {
   player.draw();
   testBoundary.draw();
 
+  if (battle.initiated) return;
+  //activating battle
   if (
     player.position.x + player.width >= testBoundary.position.x &&
     player.position.x <= testBoundary.position.x + testBoundary.width
   ) {
-    console.log("colliding");
+    console.log("collide");
+    battle.initiated = true;
+    activateBattle();
+    // return true;
   }
 
   if (keys.ArrowUp.pressed) {
@@ -156,41 +170,40 @@ function animate() {
       (testBoundary.position.x -= 3);
   }
 
-  function collision(rect1, rect2) {
-    const left1 = rect1.position.x;
-    const top1 = rect1.position.y;
-    const right1 = rect1.position.x + this.width;
-    const bottom1 = rect1.position.y + this.height;
+  //   function collision(rect1, rect2) {
+  //     const left1 = rect1.position.x;
+  //     const top1 = rect1.position.y;
+  //     const right1 = rect1.position.x + this.width;
+  //     const bottom1 = rect1.position.y + this.height;
 
-    // const myLeft = this.aLeft;
-    // const myRight = this.aRight;
-    // const myTop = this.aTop;
-    // const myBottom = this.aBottom;
+  //     // const myLeft = this.aLeft;
+  //     // const myRight = this.aRight;
+  //     // const myTop = this.aTop;
+  //     // const myBottom = this.aBottom;
 
-    const left2 = rect2.position.x;
-    const top2 = rect2.position.y;
-    const right2 = rect2.position.x + this.width;
-    const bottom2 = rect2.position.y + this.height;
-    // const otherLeft = this.bLeft;
-    // const otherRight = this.bRight;
-    // const otherBottom = this.bBottom;
-    // const otherTop = this.bTop;
+  //     const left2 = rect2.position.x;
+  //     const top2 = rect2.position.y;
+  //     const right2 = rect2.position.x + this.width;
+  //     const bottom2 = rect2.position.y + this.height;
+  //     // const otherLeft = this.bLeft;
+  //     // const otherRight = this.bRight;
+  //     // const otherBottom = this.bBottom;
+  //     // const otherTop = this.bTop;
 
-    if (bottom1 < top2) console.log("collide");
-    if (top1 > bottom2) console.log("collide");
-    if (right1 < left2) console.log("collide");
-    if (left1 > right2) console.log("collide");
-    // console.log("did not collide");
-  }
-  //   console.log(player.position.x);
-  //   console.log(mandrake.position.x);
-  collision(player, testBoundary);
+  //     if (bottom1 < top2) console.log("collide");
+  //     if (top1 > bottom2) console.log("collide");
+  //     if (right1 < left2) console.log("collide");
+  //     if (left1 > right2) console.log("collide");
+  //     // console.log("did not collide");
+  //   }
+  //   //   console.log(player.position.x);
+  //   //   console.log(mandrake.position.x);
+  //   collision(player, testBoundary);
   //   console.log(mandrake.position.x);
   //   console.log(player.position.x);
 }
 //mandrake position changes, but hermione position always stays at 444
 animate();
-
 // beast();
 //when keys are key down
 window.addEventListener("keydown", (e) => {

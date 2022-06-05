@@ -6,7 +6,7 @@ body {
   display: inline-block;
   position: relative;
 }
-.background {
+/* .background {
   background-image: url(./assets/img/backgroundMap2.png);
   background-color: black;
   position: absolute;
@@ -15,10 +15,9 @@ body {
   right: 0;
   left: 0;
   display: inline-block;
-  opacity: 0;
-}
-
-.battleBackgroundOn {
+  opacity: 1;
+} */
+.battleBackgroundOff {
   background-image: url(./assets/img/battleBackground2.png);
   background-color: white;
   position: absolute;
@@ -28,5 +27,17 @@ body {
   left: 0;
   display: inline-block;
   opacity: 0;
+  background-repeat: no-repeat;
+}
+.battleBackgroundOn {
+  background-image: url(./assets/img/battleBackground2.png);
+  background-color: white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: inline-block;
+  opacity: 1;
   background-repeat: no-repeat;
 }
