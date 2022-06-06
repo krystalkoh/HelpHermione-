@@ -1,3 +1,47 @@
+//drawing background class in canvas
+class backgroundClass {
+  constructor({ image, position }) {
+    this.image = image;
+    this.position = position;
+  }
+  draw() {
+    context.drawImage(this.image, this.position.x, this.position.y);
+  }
+}
+class Boundary {
+  constructor({ position }) {
+    (this.position = position), (this.width = 48), (this.height = 48);
+  }
+
+  draw() {
+    context.fillStyle = "rgba(255,0,0,0.5)";
+    context.fillRect(this.position.x, this.position.y, 48, 48);
+  }
+}
+
+class Sprite {
+  //   static width = 53;
+  //   static height = 60;
+  constructor({ image, position, width = 70, height = 80 }) {
+    this.image = image;
+    this.position = position;
+    this.width = this.image.width;
+    this.height = this.image.height;
+  }
+  draw() {
+    context.drawImage(
+      this.image,
+      0,
+      0,
+      this.image.width,
+      this.image.height,
+      this.position.x,
+      this.position.y,
+      this.image.width,
+      this.image.height
+    );
+  }
+}
 class Hero {
   constructor({
     name,

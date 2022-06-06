@@ -17,17 +17,6 @@ backgroundImg.src = "./assets/img/backgroundMap.png";
 const hermione = document.createElement("img");
 hermione.src = "./assets/img/singleHermione2.png";
 
-//drawing background class in canvas
-class backgroundClass {
-  constructor({ image, position }) {
-    this.image = image;
-    this.position = position;
-  }
-  draw() {
-    context.drawImage(this.image, this.position.x, this.position.y);
-  }
-}
-
 const battleBackgroundImage = document.createElement("img");
 battleBackgroundImage.src = "./assets/img/battleBackground.png";
 
@@ -41,51 +30,17 @@ const battleBackground = new backgroundClass({
 });
 
 //creating hermione class in canvas
-class Sprite {
-  //   static width = 53;
-  //   static height = 60;
-  constructor({ image, position, width = 60, height = 70 }) {
-    this.image = image;
-    this.position = position;
-    this.width = this.image.width;
-    this.height = this.image.height;
-  }
-  draw() {
-    context.drawImage(
-      this.image,
-      0,
-      0,
-      this.image.width,
-      this.image.height,
-      this.position.x,
-      this.position.y,
-      this.image.width,
-      this.image.height
-    );
-  }
-}
-
-class Boundary {
-  constructor({ position }) {
-    (this.position = position), (this.width = 60), (this.height = 60);
-  }
-
-  draw() {
-    context.fillStyle = "rgba(255,0,0,0.5)";
-    context.fillRect(this.position.x, this.position.y, 48, 48);
-  }
-}
 
 const testBoundary = new Boundary({
-  position: { x: 205, y: 300 },
+  position: { x: 750, y: 300 },
 });
 
 //might not need mandrake image...refactor
 
 const player = new Sprite({
   position: {
-    x: canvas.width - 300,
-    y: canvas.height - 300,
+    x: canvas.width - 510,
+    y: canvas.height - 250,
   },
   image: hermione,
   //   width: this.width,
@@ -96,6 +51,45 @@ const background = new backgroundClass({
   image: backgroundImg,
   position: { x: offset.x, y: offset.y },
 });
+
+////////colliding zone///////////
+// creating collisions array
+const collisionsMap = [];
+for (let i = 0; i < collisions.length; i += 70) {
+  collisionsMap.push(collisions.slice(i, 70 + i));
+}
+
+///////drawing boundaries/////////
+
+const boundaries = [];
+
+//////colliding zone///////////
+//looping over each row, i=index of the subarray
+collisionsMap.forEach((row, i) => {
+  //within each row, j=index that is looping over each symbol [0,1,0]
+  row.forEach((symbol, j) => {
+    //so that only pushing in boundaries that i want 1025
+    if (symbol === 1025)
+      boundaries.push(
+        new Boundary({
+          position: {
+            x: j * 48 + offset.x,
+            y: i * 48 + offset.y,
+          },
+        })
+      );
+  });
+});
+
+function rectangularCollision({ rectangle1, rectangle2 }) {
+  return (
+    rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
+    rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
+    rectangle1.position.y + rectangle1.height >= rectangle2.position.y &&
+    rectangle1.position.y <= rectangle2.position.y + rectangle2.height
+  );
+}
+
 //adding keys object --> default = false
 const keys = {
   ArrowUp: { pressed: false },
@@ -220,23 +214,35 @@ function animateBattle() {
 //   battleHermione.draw();
 
 ////// insert ...battleZones below////
-//creating movables array
-
-// const movables = [background, mandrake];
 
 const battle = {
   initiated: false,
 };
 
+// creating movables array
+
+const movables = [background, testBoundary, ...boundaries];
+
 function animate() {
   //adding infinite loop so character can move
   const animationId = window.requestAnimationFrame(animate);
   background.draw();
-  //   battleZones.forEach((battleZone) => {
-  //     battleZone.draw();
-  //   });
+  boundaries.forEach((boundary) => {
+    boundary.draw();
+
+    if (
+      rectangularCollision({
+        rectangle1: player,
+        rectangle2: boundary,
+      })
+    ) {
+      console.log("colliding boundary");
+    }
+  });
   player.draw();
   testBoundary.draw();
+
+  console.log(boundaries);
 
   //transition to battle scene
   if (battle.initiated) return;
@@ -267,56 +273,147 @@ function animate() {
     // return true;
   }
 
+  let moving = true;
   if (keys.ArrowUp.pressed) {
-    (background.position.y += 3),
-      //   (mandrake.position.y += 3),
-      (testBoundary.position.y += 3);
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x,
+              y: boundary.position.y + 3,
+            },
+          },
+        })
+      ) {
+        // console.log("colliding boundary");
+        moving = false;
+        break;
+      }
+    }
+
+    if (moving)
+      movables.forEach((movable) => {
+        movable.position.y += 3;
+      });
+    //   (mandrake.position.y += 3),
+    //   (testBoundary.position.y += 3);
   } else if (keys.ArrowDown.pressed) {
-    (background.position.y -= 3),
-      //   (mandrake.position.y -= 3),
-      (testBoundary.position.y -= 3);
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x,
+              y: boundary.position.y - 3,
+            },
+          },
+        })
+      ) {
+        console.log("colliding boundary");
+        moving = false;
+        break;
+      }
+    }
+    if (moving)
+      movables.forEach((movable) => {
+        movable.position.y -= 3;
+      });
+    //   (mandrake.position.y -= 3),
+    //   (testBoundary.position.y -= 3);
   } else if (keys.ArrowLeft.pressed) {
-    (background.position.x += 3),
-      //   (mandrake.position.x += 3),
-      (testBoundary.position.x += 3);
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x + 3,
+              y: boundary.position.y,
+            },
+          },
+        })
+      ) {
+        // console.log("colliding boundary");
+        moving = false;
+        break;
+      }
+    }
+
+    if (moving)
+      movables.forEach((movable) => {
+        movable.position.x += 3;
+      });
+    //   (mandrake.position.x += 3),
+    //   (testBoundary.position.x += 3);
   } else if (keys.ArrowRight.pressed) {
-    (background.position.x -= 3),
-      //   (mandrake.position.x -= 3),
-      (testBoundary.position.x -= 3);
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      if (
+        rectangularCollision({
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x - 3,
+              y: boundary.position.y,
+            },
+          },
+        })
+      ) {
+        console.log("colliding boundary");
+        moving = false;
+        break;
+      }
+    }
+    if (moving)
+      movables.forEach((movable) => {
+        movable.position.x -= 3;
+      });
+    //   (mandrake.position.x -= 3),
+    //   (testBoundary.position.x -= 3);
   }
-
-  //   function collision(rect1, rect2) {
-  //     const left1 = rect1.position.x;
-  //     const top1 = rect1.position.y;
-  //     const right1 = rect1.position.x + this.width;
-  //     const bottom1 = rect1.position.y + this.height;
-
-  //     // const myLeft = this.aLeft;
-  //     // const myRight = this.aRight;
-  //     // const myTop = this.aTop;
-  //     // const myBottom = this.aBottom;
-
-  //     const left2 = rect2.position.x;
-  //     const top2 = rect2.position.y;
-  //     const right2 = rect2.position.x + this.width;
-  //     const bottom2 = rect2.position.y + this.height;
-  //     // const otherLeft = this.bLeft;
-  //     // const otherRight = this.bRight;
-  //     // const otherBottom = this.bBottom;
-  //     // const otherTop = this.bTop;
-
-  //     if (bottom1 < top2) console.log("collide");
-  //     if (top1 > bottom2) console.log("collide");
-  //     if (right1 < left2) console.log("collide");
-  //     if (left1 > right2) console.log("collide");
-  //     // console.log("did not collide");
-  //   }
-  //   //   console.log(player.position.x);
-  //   //   console.log(mandrake.position.x);
-  //   collision(player, testBoundary);
-  //   console.log(mandrake.position.x);
-  //   console.log(player.position.x);
 }
+//   function collision(rect1, rect2) {
+//     const left1 = rect1.position.x;
+//     const top1 = rect1.position.y;
+//     const right1 = rect1.position.x + this.width;
+//     const bottom1 = rect1.position.y + this.height;
+
+//     // const myLeft = this.aLeft;
+//     // const myRight = this.aRight;
+//     // const myTop = this.aTop;
+//     // const myBottom = this.aBottom;
+
+//     const left2 = rect2.position.x;
+//     const top2 = rect2.position.y;
+//     const right2 = rect2.position.x + this.width;
+//     const bottom2 = rect2.position.y + this.height;
+//     // const otherLeft = this.bLeft;
+//     // const otherRight = this.bRight;
+//     // const otherBottom = this.bBottom;
+//     // const otherTop = this.bTop;
+
+//     if (bottom1 < top2) console.log("collide");
+//     if (top1 > bottom2) console.log("collide");
+//     if (right1 < left2) console.log("collide");
+//     if (left1 > right2) console.log("collide");
+//     // console.log("did not collide");
+//   }
+//   //   console.log(player.position.x);
+//   //   console.log(mandrake.position.x);
+//   collision(player, testBoundary);
+//   console.log(mandrake.position.x);
+//   console.log(player.position.x);
+
 //mandrake position changes, but hermione position always stays at 444
 animate();
 
