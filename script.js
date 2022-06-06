@@ -104,59 +104,6 @@ const keys = {
   ArrowRight: { pressed: false },
 };
 
-class Hero {
-  constructor({ name, image, position, width, height, health, weapons }) {
-    (this.name = name),
-      (this.image = image),
-      (this.position = position),
-      (this.width = width),
-      (this.height = height);
-    (this.health = health), (this.weapons = weapons);
-  }
-  draw() {
-    context.drawImage(
-      this.image,
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height
-    );
-  }
-  announceHealth() {
-    return this.health;
-  }
-  fight(enemy) {
-    const weaponsArr = Object.keys(this.weapons);
-    const weaponSelected =
-      weaponsArr[Math.floor(Math.random() * weaponsArr.length)];
-    const weaponPoints = this.weapons[weaponSelected];
-    const finalHealth = (enemy.health -= weaponPoints);
-    console.log(
-      `${this.name} attacks. ${enemy.name} health is now at ${enemy.health}! Remaining health is ${finalHealth}`
-    );
-  }
-}
-
-class Enemy {
-  constructor({ name, image, position, width, height, health }) {
-    (this.name = name),
-      (this.image = image),
-      //   (this.position = position),
-      //   (this.width = width),
-      (this.height = height);
-    this.health = health;
-  }
-  draw() {
-    context.drawImage(
-      this.image,
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height
-    );
-  }
-}
-
 // class HealthBar{
 //     constructor(element, initialValue=100){
 //         this.fillElem=document.querySelector(".hermioneFullHealth");
@@ -195,31 +142,20 @@ class Enemy {
 // }
 //   }
 // }
-const wingardium = document.querySelector(".attack1");
 
-function attack(enemy) {
-  const spellSelected = spellsArr[0];
-  const spellDamage = spellSelected.spell1;
-  console.log(spellDamage);
-  const MandrakeFinalHealth = (mandrake.health -= spellDamage);
-  console.log(MandrakeFinalHealth);
-  if (MandrakeFinalHealth <= 0) {
-    console.log("Mandrake has fainted");
-  }
-
-  console.log(`mandrake health is ${MandrakeFinalHealth}`);
-}
 // wingardium.addEventListener("click", attack(mandrake));
-const spellsArr = [{ spell1: 10 }, { spell2: 20 }, { spell3: 30 }];
 
 const battleHermione = new Hero({
   name: "Hermione",
   health: 100,
-  position: { x: 130, y: 200 },
-  weapons: spellsArr,
+});
+
+const mandrake = new Enemy({
+  name: "Mandrake",
   health: 100,
 });
 
+/////////////BATTLE SCENE/////////////////////
 const container = document.getElementById("container");
 // const attackBtn = document.createElement("div");
 // attackBtn.innerText = "Hello";
@@ -259,21 +195,29 @@ function animateBattle() {
   button3.innerText = "Petrificus Totalus";
   overlay.appendChild(button3);
 
-  //   const mandrake = new Enemy({
-  //     name: "Mandrake",
-  //     image: mandrakeImg,
-  //     //   position: { x: 650, y: 80 },
-  //     //
-  //     weapons: { cry: 40 },
-  //     health: 50,
-  //   });
-
-  //   window.requestAnimationFrame(animateBattle);
-  //   battleBackground.draw();
-  //   //   attackDiv.appendChild(attackOn);
-  //   mandrake.draw();
-  //   battleHermione.draw();
+  //   const attackBtn = (e) => {
+  //     console.log(e.currentTarget);
+  //     e.currentTarget.addEventListener("click", (e) => {
+  //       e.currentTarget.innerText = "Attacked!";
+  //       battleHermione.attack(mandrake);
+  //     });
+  //   };
+  //   attackBtn();
 }
+//   const mandrake = new Enemy({
+//     name: "Mandrake",
+//     image: mandrakeImg,
+//     //   position: { x: 650, y: 80 },
+//     //
+//     weapons: { cry: 40 },
+//     health: 50,
+//   });
+
+//   window.requestAnimationFrame(animateBattle);
+//   battleBackground.draw();
+//   //   attackDiv.appendChild(attackOn);
+//   mandrake.draw();
+//   battleHermione.draw();
 
 ////// insert ...battleZones below////
 //creating movables array
