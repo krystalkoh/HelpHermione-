@@ -133,7 +133,7 @@ button:hover {
   background-color: white;
   border: 1px solid black;
   top: 10px;
-  right: 100px;
+  right: 90px;
   font-size: 13px;
 }
 h4 {
@@ -141,7 +141,7 @@ h4 {
   margin: 20px 0 10px 0;
 }
 
-.health {
+.enemyhealth {
   width: 250px;
   height: 5px;
   background-color: #ccc;
@@ -149,12 +149,13 @@ h4 {
   position: absolute;
 }
 
-.fullHealth {
+.enemyFullHealth {
   width: 250px;
   height: 5px;
   background-color: green;
   margin: 0px 0px 0px 20px;
   position: absolute;
+  transition: width 0.5s;
 }
 /* hermione's stats*/
 .hermioneStats {
@@ -164,7 +165,7 @@ h4 {
   background-color: white;
   border: 1px solid black;
   bottom: 120px;
-  left: 100px;
+  left: 90px;
   font-size: 13px;
 }
 

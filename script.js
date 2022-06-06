@@ -17,7 +17,7 @@ backgroundImg.src = "./assets/img/backgroundMap.png";
 const hermione = document.createElement("img");
 hermione.src = "./assets/img/singleHermione2.png";
 
-//drawing hermione sprite in canvas
+//drawing background class in canvas
 class backgroundClass {
   constructor({ image, position }) {
     this.image = image;
@@ -28,6 +28,19 @@ class backgroundClass {
   }
 }
 
+const battleBackgroundImage = document.createElement("img");
+battleBackgroundImage.src = "./assets/img/battleBackground.png";
+
+// const attackDiv = document.getElementById("attack");
+// const attackOn = document.createElement("div");
+// attackOn.className = "attackBar";
+
+const battleBackground = new backgroundClass({
+  image: battleBackgroundImage,
+  position: { x: 0, y: 0 },
+});
+
+//creating hermione class in canvas
 class Sprite {
   //   static width = 53;
   //   static height = 60;
@@ -91,12 +104,14 @@ const keys = {
   ArrowRight: { pressed: false },
 };
 
-class Enemy {
-  constructor({ image, position, width, height }) {
-    (this.image = image),
+class Hero {
+  constructor({ name, image, position, width, height, health, weapons }) {
+    (this.name = name),
+      (this.image = image),
       (this.position = position),
       (this.width = width),
       (this.height = height);
+    (this.health = health), (this.weapons = weapons);
   }
   draw() {
     context.drawImage(
@@ -107,41 +122,130 @@ class Enemy {
       this.height
     );
   }
+  announceHealth() {
+    return this.health;
+  }
+  fight(enemy) {
+    const weaponsArr = Object.keys(this.weapons);
+    const weaponSelected =
+      weaponsArr[Math.floor(Math.random() * weaponsArr.length)];
+    const weaponPoints = this.weapons[weaponSelected];
+    const finalHealth = (enemy.health -= weaponPoints);
+    console.log(
+      `${this.name} attacks. ${enemy.name} health is now at ${enemy.health}! Remaining health is ${finalHealth}`
+    );
+  }
 }
+
+class Enemy {
+  constructor({ name, image, position, width, height, health }) {
+    (this.name = name),
+      (this.image = image),
+      (this.position = position),
+      (this.width = width),
+      (this.height = height);
+    this.health = health;
+  }
+  draw() {
+    context.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
+  }
+  announceHealth() {
+    return this.health;
+  }
+}
+
+// class HealthBar{
+//     constructor(element, initialValue=100){
+//         this.fillElem=document.querySelector(".hermioneFullHealth");
+//         console.log(this.fellElem)
+//         this.setValue(initialValue)
+// setValue(newValue) {
+// this.value = newValue;
+// this.update();
+//     }
+//     update(){
+//         const percentage = this.value -%
+//         this.fillElem.style.width=percentage
+//     }
+// }   }
+// }
+
+//   attack({ attack, recipient }) {
+//     const enemyHealthBar = document.querySelector(".enemyFullHealth");
 
 const mandrakeImg = document.createElement("img");
 mandrakeImg.src = "./assets/img/mandrake.png";
 
-const battleBackgroundImage = document.createElement("img");
-battleBackgroundImage.src = "./assets/img/battleBackground.png";
-
-// const attackDiv = document.getElementById("attack");
-// const attackOn = document.createElement("div");
-// attackOn.className = "attackBar";
-
-const battleBackground = new backgroundClass({
-  image: battleBackgroundImage,
-  position: { x: 0, y: 0 },
-});
-
 const mandrake = new Enemy({
+  name: "Mandrake",
   image: mandrakeImg,
   position: { x: 650, y: 80 },
   width: 250,
   height: 250,
+  weapons: { cry: 40 },
+  health: 50,
 });
 
 const battleHermioneImg = document.createElement("img");
 battleHermioneImg.src = "./assets/img/hermioneBattle.png";
-const battleHermione = new Enemy({
+const spellsArr = [{ spell1: 10 }, { spell2: 20 }, { spell3: 30 }];
+
+const battleHermione = new Hero({
+  name: "Hermione",
+  health: 100,
   image: battleHermioneImg,
   position: { x: 130, y: 200 },
   width: 330,
   height: 330,
+  weapons: spellsArr,
+  health: 100,
 });
 
+//pizzaRat e.g lets fight
+// console.log(battleHermione);
+// //let's fight!
+// function letsFight() {
+//   while (battleHermione.health > 0 && mandrake.health > 0) {
+//     battleHermione.fight(mandrake);
+
+//     if (battleHermione.health <= 0) {
+//       console.log(`Hermione has fainted!`);
+//       break;
+//     }
+
+//     mandrake.fight(battleHermione);
+//     if (mandrake.health <= 0) {
+//       console.log(`Mandrake has fainted!`);
+//       break;
+// }
+//   }
+// }
+const wingardium = document.querySelector(".attack1");
+
+function attack(enemy) {
+  const spellSelected = spellsArr[0];
+  const spellDamage = spellSelected.spell1;
+  console.log(spellDamage);
+  const MandrakeFinalHealth = (mandrake.health -= spellDamage);
+  console.log(MandrakeFinalHealth);
+  if (MandrakeFinalHealth <= 0) {
+    console.log("Mandrake has fainted");
+    window.cancelAnimationFrame(animationId);
+  }
+
+  console.log(`mandrake health is ${MandrakeFinalHealth}`);
+}
+wingardium.addEventListener("click", attack(mandrake));
+
 function animateBattle() {
-  window.requestAnimationFrame(animateBattle);
+  const animationId = window.requestAnimationFrame(animateBattle);
+  console.log(animationId);
   battleBackground.draw();
   //   attackDiv.appendChild(attackOn);
   mandrake.draw();
@@ -149,13 +253,14 @@ function animateBattle() {
 }
 
 ////// insert ...battleZones below////
+//creating movables array
+
 // const movables = [background, mandrake];
 
 const battle = {
   initiated: false,
 };
 
-//creating movables array
 function animate() {
   //adding infinite loop so character can move
   const animationId = window.requestAnimationFrame(animate);
@@ -163,12 +268,10 @@ function animate() {
   //   battleZones.forEach((battleZone) => {
   //     battleZone.draw();
   //   });
-  //   mandrake.draw();
   player.draw();
   testBoundary.draw();
 
   //transition to battle scene
-  console.log(animationId);
   if (battle.initiated) return;
   //activating battle
   if (
@@ -190,6 +293,7 @@ function animate() {
 
     //activate a new animation loop
     animateBattle();
+
     // return true;
   }
 
@@ -277,7 +381,3 @@ window.addEventListener("keyup", (e) => {
 //
 
 //battle
-// const testing = document.getElementById("mandrake");
-// testing.addEventListener("click", function (e) {
-//   console.log(e.target, "mandrake works");
-// });
