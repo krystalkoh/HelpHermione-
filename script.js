@@ -176,21 +176,6 @@ class Enemy {
 //   attack({ attack, recipient }) {
 //     const enemyHealthBar = document.querySelector(".enemyFullHealth");
 
-const battleHermioneImg = document.createElement("img");
-battleHermioneImg.src = "./assets/img/hermioneBattle.png";
-const spellsArr = [{ spell1: 10 }, { spell2: 20 }, { spell3: 30 }];
-
-const battleHermione = new Hero({
-  name: "Hermione",
-  health: 100,
-  image: battleHermioneImg,
-  position: { x: 130, y: 200 },
-  width: 330,
-  height: 330,
-  weapons: spellsArr,
-  health: 100,
-});
-
 //pizzaRat e.g lets fight
 // console.log(battleHermione);
 // //let's fight!
@@ -225,11 +210,21 @@ function attack(enemy) {
   console.log(`mandrake health is ${MandrakeFinalHealth}`);
 }
 // wingardium.addEventListener("click", attack(mandrake));
+const spellsArr = [{ spell1: 10 }, { spell2: 20 }, { spell3: 30 }];
+
+const battleHermione = new Hero({
+  name: "Hermione",
+  health: 100,
+  position: { x: 130, y: 200 },
+  weapons: spellsArr,
+  health: 100,
+});
 
 const container = document.getElementById("container");
 // const attackBtn = document.createElement("div");
 // attackBtn.innerText = "Hello";
 // canvas.prepend(attackBtn);
+const insertOverlay = document.getElementById("insertOverlay");
 function animateBattle() {
   const overlay = document.createElement("div");
   overlay.setAttribute("id", "overlay");
@@ -239,6 +234,31 @@ function animateBattle() {
   mandrakeImg.src = "./assets/img/mandrake.png";
   mandrakeImg.className = "mandrake";
   overlay.appendChild(mandrakeImg);
+
+  const battleHermioneImg = document.createElement("img");
+  battleHermioneImg.src = "./assets/img/hermioneBattle.png";
+  battleHermioneImg.className = "hermione";
+  overlay.appendChild(battleHermioneImg);
+
+  const divId = document.createElement("div");
+  divId.setAttribute("id", "attackButtons");
+  overlay.appendChild(divId);
+
+  const button1 = document.createElement("button");
+  button1.className = "attack1";
+  button1.innerText = "Wingardium Leviosa";
+  overlay.appendChild(button1);
+
+  const button2 = document.createElement("button");
+  button2.className = "attack2";
+  button2.innerText = "Obliviate";
+  overlay.appendChild(button2);
+
+  const button3 = document.createElement("button");
+  button3.className = "attack3";
+  button3.innerText = "Petrificus Totalus";
+  overlay.appendChild(button3);
+
   //   const mandrake = new Enemy({
   //     name: "Mandrake",
   //     image: mandrakeImg,

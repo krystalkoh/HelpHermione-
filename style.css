@@ -20,6 +20,17 @@ body {
 .mandrake {
   width: 250px;
   height: 250px;
+  position: absolute;
+  right: 70px;
+  top: 70px;
+}
+
+.hermione {
+  width: 330px;
+  height: 330px;
+  position: absolute;
+  bottom: 50px;
+  left: 80px;
 }
 /* 
 .battleBackgroundOff {
@@ -49,7 +60,7 @@ body {
 } */
 
 /* attack buttons */
-.attackBar {
+/* .attackBar {
   background-color: white;
   width: 1017px;
   position: absolute;
@@ -68,14 +79,15 @@ body {
 #attackButtons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-}
+} */
+
 h1 {
   width: 264px;
   text-align: center;
   padding: 25px 0 30px 10px;
   font-size: 1.3em;
 }
-button {
+/* button {
   padding: 40px 30px 40px 55px;
   display: flex;
   width: 260px;
@@ -90,54 +102,63 @@ button:hover {
   font-family: "Press Start 2P", cursive;
   background-color: rgb(231, 197, 227);
   cursor: pointer;
-}
+} */
 
 .attack1 {
-  padding: 45px 00px 0 20px;
-  display: flex;
+  padding: 25px 15px 25px 15px;
+  display: inline;
   width: 250px;
+  margin-top: 508px;
+  margin-left: 250px;
   font-size: 12px;
   font-family: "Press Start 2P", cursive;
 }
 .attack1:hover {
-  padding: 45px 0 0 20px;
-  display: flex;
+  padding: 25px 15px 25px 15px;
+  display: inline;
   width: 250px;
+  margin-top: 508px;
+  margin-left: 250px;
   font-size: 12px;
   font-family: "Press Start 2P", cursive;
-
+  cursor: pointer;
   background-color: rgb(197, 231, 203);
 }
 .attack2 {
-  padding: 45px 0px 0 60px;
-  display: flex;
+  padding: 25px 15px 25px 15px;
+  display: inline;
   width: 250px;
-  font-size: 14px;
+  margin-top: 508px;
+  font-size: 12px;
+
   font-family: "Press Start 2P", cursive;
 }
 .attack2:hover {
-  padding: 45px 0 0 60px;
-  display: flex;
+  padding: 25px 15px 25px 15px;
+  display: inline;
   width: 250px;
-  font-size: 14px;
+  margin-top: 508px;
+  font-size: 12px;
   font-family: "Press Start 2P", cursive;
-
+  cursor: pointer;
   background-color: rgb(209, 236, 247);
 }
 .attack3 {
-  padding: 45px 0px 0 10px;
-  display: flex;
+  padding: 25px 15px 25px 15px;
+  display: inline;
   width: 250px;
-  font-size: 13px;
+  margin-top: 508px;
+  font-size: 12px;
   font-family: "Press Start 2P", cursive;
 }
 .attack3:hover {
-  padding: 45px 0 0 10px;
-  display: flex;
+  padding: 25px 15px 25px 15px;
+  display: inline;
   width: 250px;
-  font-size: 13px;
+  margin-top: 508px;
+  font-size: 12px;
   font-family: "Press Start 2P", cursive;
-
+  cursor: pointer;
   background-color: rgb(245, 209, 247);
 }
 /* enemy stats */
