@@ -1,25 +1,17 @@
 body {
   background-color: white;
+  font-family: "Press Start 2P", cursive;
 }
+/* main container and backgrounds */
 
 .container {
   display: inline-block;
   position: relative;
 }
-/* .background {
-  background-image: url(./assets/img/backgroundMap2.png);
-  background-color: black;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  display: inline-block;
-  opacity: 1;
-} */
-.battleBackgroundOff {
-  background-image: url(./assets/img/battleBackground2.png);
-  background-color: white;
+
+/* .battleBackgroundOff { */
+/* background-image: url(./assets/img/battleBackground2.png); */
+/* background-color: white;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -29,9 +21,9 @@ body {
   opacity: 0;
   background-repeat: no-repeat;
 }
-.battleBackgroundOn {
-  background-image: url(./assets/img/battleBackground2.png);
-  background-color: white;
+.battleBackgroundOn { */
+/* background-image: url(./assets/img/battleBackground2.png); */
+/* background-color: black;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -41,4 +33,153 @@ body {
   opacity: 1;
   background-repeat: no-repeat;
   transition: 2s ease-in-out;
+} */
+
+/* attack buttons */
+.attackBar {
+  background-color: white;
+  width: 1017px;
+  position: absolute;
+  height: 100px;
+  bottom: 0px;
+  border: 4px black solid;
+  opacity: 1;
+}
+
+#attack {
+  opacity: 1;
+  display: flex;
+}
+#attackButtons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+h1 {
+  width: 264px;
+  text-align: center;
+  padding: 25px 0 30px 10px;
+  font-size: 1.3em;
+}
+button {
+  padding: 40px 30px 40px 55px;
+  display: flex;
+  width: 260px;
+
+  font-family: "Press Start 2P", cursive;
+  border: 0;
+}
+button:hover {
+  padding: 40px 30px 40px 55px;
+  display: flex;
+  width: 250px;
+  font-family: "Press Start 2P", cursive;
+  background-color: rgb(231, 197, 227);
+  cursor: pointer;
+}
+
+.attack1 {
+  padding: 45px 00px 0 20px;
+  display: flex;
+  width: 250px;
+  font-size: 12px;
+  font-family: "Press Start 2P", cursive;
+}
+.attack1:hover {
+  padding: 45px 0 0 20px;
+  display: flex;
+  width: 250px;
+  font-size: 12px;
+  font-family: "Press Start 2P", cursive;
+
+  background-color: rgb(197, 231, 203);
+}
+.attack2 {
+  padding: 45px 0px 0 60px;
+  display: flex;
+  width: 250px;
+  font-size: 14px;
+  font-family: "Press Start 2P", cursive;
+}
+.attack2:hover {
+  padding: 45px 0 0 60px;
+  display: flex;
+  width: 250px;
+  font-size: 14px;
+  font-family: "Press Start 2P", cursive;
+
+  background-color: rgb(209, 236, 247);
+}
+.attack3 {
+  padding: 45px 0px 0 10px;
+  display: flex;
+  width: 250px;
+  font-size: 13px;
+  font-family: "Press Start 2P", cursive;
+}
+.attack3:hover {
+  padding: 45px 0 0 10px;
+  display: flex;
+  width: 250px;
+  font-size: 13px;
+  font-family: "Press Start 2P", cursive;
+
+  background-color: rgb(245, 209, 247);
+}
+/* enemy stats */
+.enemyStats {
+  position: absolute;
+  width: 300px;
+  height: 60px;
+  background-color: white;
+  border: 1px solid black;
+  top: 10px;
+  right: 100px;
+  font-size: 13px;
+}
+h4 {
+  padding: 0px 0px 0px 30px;
+  margin: 20px 0 10px 0;
+}
+
+.health {
+  width: 250px;
+  height: 5px;
+  background-color: #ccc;
+  margin: 0px 0px 0px 20px;
+  position: absolute;
+}
+
+.fullHealth {
+  width: 250px;
+  height: 5px;
+  background-color: green;
+  margin: 0px 0px 0px 20px;
+  position: absolute;
+}
+/* hermione's stats*/
+.hermioneStats {
+  position: absolute;
+  width: 300px;
+  height: 60px;
+  background-color: white;
+  border: 1px solid black;
+  bottom: 120px;
+  left: 100px;
+  font-size: 13px;
+}
+
+.hermioneHealth {
+  width: 250px;
+  height: 5px;
+  background-color: #ccc;
+  margin: 0px 0px 0px 20px;
+  position: absolute;
+}
+
+.hermioneFullHealth {
+  width: 250px;
+  height: 5px;
+  background-color: green;
+  margin: 0px 0px 0px 20px;
+  position: absolute;
 }

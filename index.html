@@ -6,18 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hermione & the chamber of beasts</title>
     <link href="style.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="container">
+      <!--health bar of enemy-->
+      <div class="enemyStats">
+        <h4>Mandrake</h4>
+        <div style="position: relative">
+          <div class="health"></div>
+          <div class="fullHealth"></div>
+        </div>
+      </div>
+      <!--health bar of hermione-->
+      <div class="hermioneStats">
+        <h4>Hermione</h4>
+        <div style="position: relative">
+          <div class="hermioneHealth"></div>
+          <div class="hermioneFullHealth"></div>
+        </div>
+      </div>
+
       <div class="battleBackgroundOff"></div>
       <canvas>
         <!-- <img src="./assets/img/backgroundMap.png" class="background" />
         <img src="./assets/img/singleHermione.png" id="hermioneDown" />
         <img src="./assets/img/mandrake.png" id="mandrake" /> -->
       </canvas>
+      <div id="attack">
+        <h1>Attack:</h1>
+        <div id="attackButtons">
+          <button class="attack1">Wingardium Leviosa</button>
+          <button class="attack2">Obliviate</button>
+          <button class="attack3">Petrificus Totalus</button>
+        </div>
+      </div>
+
+      <script src="collisions.js" charset="utf-8"></script>
+      <script src="battleZone.js" charset="utf-8"></script>
+      <script src="script.js" charset="utf-8"></script>
     </div>
-    <script src="collisions.js" charset="utf-8"></script>
-    <script src="battleZone.js" charset="utf-8"></script>
-    <script src="script.js" charset="utf-8"></script>
   </body>
 </html>

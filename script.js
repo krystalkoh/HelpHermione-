@@ -52,24 +52,6 @@ class Sprite {
   }
 }
 
-class Enemy {
-  constructor({ image, position, width, height }) {
-    (this.image = image),
-      (this.position = position),
-      (this.width = width),
-      (this.height = height);
-  }
-  draw() {
-    context.drawImage(
-      this.image,
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height
-    );
-  }
-}
-
 class Boundary {
   constructor({ position }) {
     (this.position = position), (this.width = 60), (this.height = 60);
@@ -85,15 +67,7 @@ const testBoundary = new Boundary({
   position: { x: 205, y: 300 },
 });
 
-const mandrakeImg = document.createElement("img");
-mandrakeImg.src = "./assets/img/mandrake.png";
-
-const mandrake = new Enemy({
-  image: mandrakeImg,
-  position: { x: 200, y: 300 },
-  width: 60,
-  height: 60,
-});
+//might not need mandrake image...refactor
 
 const player = new Sprite({
   position: {
@@ -116,13 +90,66 @@ const keys = {
   ArrowLeft: { pressed: false },
   ArrowRight: { pressed: false },
 };
+
+class Enemy {
+  constructor({ image, position, width, height }) {
+    (this.image = image),
+      (this.position = position),
+      (this.width = width),
+      (this.height = height);
+  }
+  draw() {
+    context.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
+  }
+}
+
+const mandrakeImg = document.createElement("img");
+mandrakeImg.src = "./assets/img/mandrake.png";
+
+const battleBackgroundImage = document.createElement("img");
+battleBackgroundImage.src = "./assets/img/battleBackground.png";
+
+// const attackDiv = document.getElementById("attack");
+// const attackOn = document.createElement("div");
+// attackOn.className = "attackBar";
+
+const battleBackground = new backgroundClass({
+  image: battleBackgroundImage,
+  position: { x: 0, y: 0 },
+});
+
+const mandrake = new Enemy({
+  image: mandrakeImg,
+  position: { x: 650, y: 80 },
+  width: 250,
+  height: 250,
+});
+
+const battleHermioneImg = document.createElement("img");
+battleHermioneImg.src = "./assets/img/hermioneBattle.png";
+const battleHermione = new Enemy({
+  image: battleHermioneImg,
+  position: { x: 130, y: 200 },
+  width: 330,
+  height: 330,
+});
+
+function animateBattle() {
+  window.requestAnimationFrame(animateBattle);
+  battleBackground.draw();
+  //   attackDiv.appendChild(attackOn);
+  mandrake.draw();
+  battleHermione.draw();
+}
+
 ////// insert ...battleZones below////
 // const movables = [background, mandrake];
-
-function activateBattle() {
-  const element = document.querySelector(".battleBackgroundOff");
-  element.classList.toggle("battleBackgroundOn");
-}
 
 const battle = {
   initiated: false,
@@ -131,15 +158,17 @@ const battle = {
 //creating movables array
 function animate() {
   //adding infinite loop so character can move
-  window.requestAnimationFrame(animate);
+  const animationId = window.requestAnimationFrame(animate);
   background.draw();
   //   battleZones.forEach((battleZone) => {
   //     battleZone.draw();
   //   });
-  mandrake.draw();
+  //   mandrake.draw();
   player.draw();
   testBoundary.draw();
 
+  //transition to battle scene
+  console.log(animationId);
   if (battle.initiated) return;
   //activating battle
   if (
@@ -148,25 +177,37 @@ function animate() {
   ) {
     console.log("collide");
     battle.initiated = true;
-    activateBattle();
+    // transition to battle background
+    //deactivate current animation loop
+    window.cancelAnimationFrame(animationId);
+
+    ///FOLLOWING IS TRANSITION TO BATTLE SCENE...HAFTA USE CSS..THINK AGAIN
+    // function activateBattle() {
+    //   const element = document.querySelector(".battleBackgroundOff");
+    //   element.classList.toggle("battleBackgroundOn");
+    // }
+    // // activateBattle();
+
+    //activate a new animation loop
+    animateBattle();
     // return true;
   }
 
   if (keys.ArrowUp.pressed) {
     (background.position.y += 3),
-      (mandrake.position.y += 3),
+      //   (mandrake.position.y += 3),
       (testBoundary.position.y += 3);
   } else if (keys.ArrowDown.pressed) {
     (background.position.y -= 3),
-      (mandrake.position.y -= 3),
+      //   (mandrake.position.y -= 3),
       (testBoundary.position.y -= 3);
   } else if (keys.ArrowLeft.pressed) {
     (background.position.x += 3),
-      (mandrake.position.x += 3),
+      //   (mandrake.position.x += 3),
       (testBoundary.position.x += 3);
   } else if (keys.ArrowRight.pressed) {
     (background.position.x -= 3),
-      (mandrake.position.x -= 3),
+      //   (mandrake.position.x -= 3),
       (testBoundary.position.x -= 3);
   }
 
@@ -204,7 +245,7 @@ function animate() {
 }
 //mandrake position changes, but hermione position always stays at 444
 animate();
-// beast();
+
 //when keys are key down
 window.addEventListener("keydown", (e) => {
   if (e.key === "ArrowDown") {
@@ -230,6 +271,8 @@ window.addEventListener("keyup", (e) => {
     keys.ArrowLeft.pressed = false;
   }
 });
+
+//beast
 
 //
 
