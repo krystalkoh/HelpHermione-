@@ -141,8 +141,8 @@ class Enemy {
   constructor({ name, image, position, width, height, health }) {
     (this.name = name),
       (this.image = image),
-      (this.position = position),
-      (this.width = width),
+      //   (this.position = position),
+      //   (this.width = width),
       (this.height = height);
     this.health = health;
   }
@@ -154,9 +154,6 @@ class Enemy {
       this.width,
       this.height
     );
-  }
-  announceHealth() {
-    return this.health;
   }
 }
 
@@ -178,19 +175,6 @@ class Enemy {
 
 //   attack({ attack, recipient }) {
 //     const enemyHealthBar = document.querySelector(".enemyFullHealth");
-
-const mandrakeImg = document.createElement("img");
-mandrakeImg.src = "./assets/img/mandrake.png";
-
-const mandrake = new Enemy({
-  name: "Mandrake",
-  image: mandrakeImg,
-  position: { x: 650, y: 80 },
-  width: 250,
-  height: 250,
-  weapons: { cry: 40 },
-  health: 50,
-});
 
 const battleHermioneImg = document.createElement("img");
 battleHermioneImg.src = "./assets/img/hermioneBattle.png";
@@ -236,20 +220,39 @@ function attack(enemy) {
   console.log(MandrakeFinalHealth);
   if (MandrakeFinalHealth <= 0) {
     console.log("Mandrake has fainted");
-    window.cancelAnimationFrame(animationId);
   }
 
   console.log(`mandrake health is ${MandrakeFinalHealth}`);
 }
-wingardium.addEventListener("click", attack(mandrake));
+// wingardium.addEventListener("click", attack(mandrake));
 
+const container = document.getElementById("container");
+// const attackBtn = document.createElement("div");
+// attackBtn.innerText = "Hello";
+// canvas.prepend(attackBtn);
 function animateBattle() {
-  const animationId = window.requestAnimationFrame(animateBattle);
-  console.log(animationId);
-  battleBackground.draw();
-  //   attackDiv.appendChild(attackOn);
-  mandrake.draw();
-  battleHermione.draw();
+  const overlay = document.createElement("div");
+  overlay.setAttribute("id", "overlay");
+  container.append(overlay);
+
+  const mandrakeImg = document.createElement("img");
+  mandrakeImg.src = "./assets/img/mandrake.png";
+  mandrakeImg.className = "mandrake";
+  overlay.appendChild(mandrakeImg);
+  //   const mandrake = new Enemy({
+  //     name: "Mandrake",
+  //     image: mandrakeImg,
+  //     //   position: { x: 650, y: 80 },
+  //     //
+  //     weapons: { cry: 40 },
+  //     health: 50,
+  //   });
+
+  //   window.requestAnimationFrame(animateBattle);
+  //   battleBackground.draw();
+  //   //   attackDiv.appendChild(attackOn);
+  //   mandrake.draw();
+  //   battleHermione.draw();
 }
 
 ////// insert ...battleZones below////
@@ -274,9 +277,12 @@ function animate() {
   //transition to battle scene
   if (battle.initiated) return;
   //activating battle
+
   if (
     player.position.x + player.width >= testBoundary.position.x &&
-    player.position.x <= testBoundary.position.x + testBoundary.width
+    player.position.x <= testBoundary.position.x + testBoundary.width &&
+    player.position.y + player.height >= testBoundary.position.y &&
+    player.position.y <= testBoundary.position.y + testBoundary.height
   ) {
     console.log("collide");
     battle.initiated = true;
@@ -289,7 +295,7 @@ function animate() {
     //   const element = document.querySelector(".battleBackgroundOff");
     //   element.classList.toggle("battleBackgroundOn");
     // }
-    // // activateBattle();
+    // activateBattle();
 
     //activate a new animation loop
     animateBattle();
