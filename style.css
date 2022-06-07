@@ -220,3 +220,21 @@ h4 {
   margin: 0px 0px 0px 20px;
   position: absolute;
 }
+
+/* blinking transition to battle */
+/* @keyframes blinking {
+  0% {
+    color: #ff3d50;
+  }
+  
+  50% {
+    color: #55d66b;
+  }
+  100% {
+    color: #222291;
+  }
+}
+
+.blink {
+  animation: blinking 10s infinite;
+} */

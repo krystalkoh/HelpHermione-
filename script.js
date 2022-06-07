@@ -31,7 +31,7 @@ const battleBackground = new backgroundClass({
 
 //creating hermione class in canvas
 
-const testBoundary = new Boundary({
+const battlePatch = new Boundary({
   position: { x: 750, y: 300 },
 });
 
@@ -141,10 +141,10 @@ const keys = {
 
 const battleHermione = new Hero({
   name: "Hermione",
-  health: 100,
+  health: 500,
 });
 
-const mandrake = new Enemy({
+const mandrake = new Hero({
   name: "Mandrake",
   health: 100,
 });
@@ -155,9 +155,11 @@ const container = document.getElementById("container");
 // attackBtn.innerText = "Hello";
 // canvas.prepend(attackBtn);
 const insertOverlay = document.getElementById("insertOverlay");
+
 function animateBattle() {
   const overlay = document.createElement("div");
   overlay.setAttribute("id", "overlay");
+  //   overlay.classList.add("blink");
   container.append(overlay);
 
   const mandrakeImg = document.createElement("img");
@@ -188,6 +190,29 @@ function animateBattle() {
   button3.className = "attack3";
   button3.innerText = "Petrificus Totalus";
   overlay.appendChild(button3);
+
+  button1.addEventListener("click", (e) => {
+    console.log(battleHermione.announceHealth());
+    // if this is working correctly??
+
+    //    while (battleHermione.health>0 && mandrake.health>0){
+    battleHermione.attack(mandrake);
+    if (mandrake.health < 0) {
+      alert("mandrake died");
+      overlay.remove();
+    } else {
+      mandrake.attack(battleHermione);
+    }
+
+    //   console.log(battleHermione.announceHealth());
+
+    //   overlay.remove();
+    //   animate();
+
+    if (battleHermione.health < 0) {
+      alert("game over");
+    }
+  });
 
   //   const attackBtn = (e) => {
   //     console.log(e.currentTarget);
@@ -221,7 +246,7 @@ const battle = {
 
 // creating movables array
 
-const movables = [background, testBoundary, ...boundaries];
+const movables = [background, battlePatch, ...boundaries];
 
 function animate() {
   //adding infinite loop so character can move
@@ -240,19 +265,19 @@ function animate() {
     }
   });
   player.draw();
-  testBoundary.draw();
+  battlePatch.draw();
 
-  console.log(boundaries);
+  //   console.log(boundaries);
 
   //transition to battle scene
   if (battle.initiated) return;
   //activating battle
 
   if (
-    player.position.x + player.width >= testBoundary.position.x &&
-    player.position.x <= testBoundary.position.x + testBoundary.width &&
-    player.position.y + player.height >= testBoundary.position.y &&
-    player.position.y <= testBoundary.position.y + testBoundary.height
+    player.position.x + player.width >= battlePatch.position.x &&
+    player.position.x <= battlePatch.position.x + battlePatch.width &&
+    player.position.y + player.height >= battlePatch.position.y &&
+    player.position.y <= battlePatch.position.y + battlePatch.height
   ) {
     console.log("collide");
     battle.initiated = true;
@@ -273,6 +298,7 @@ function animate() {
     // return true;
   }
 
+  //////////forboundarycollision////////////
   let moving = true;
   if (keys.ArrowUp.pressed) {
     for (let i = 0; i < boundaries.length; i++) {
@@ -300,7 +326,7 @@ function animate() {
         movable.position.y += 3;
       });
     //   (mandrake.position.y += 3),
-    //   (testBoundary.position.y += 3);
+    //   (battlePatch.position.y += 3);
   } else if (keys.ArrowDown.pressed) {
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -326,7 +352,7 @@ function animate() {
         movable.position.y -= 3;
       });
     //   (mandrake.position.y -= 3),
-    //   (testBoundary.position.y -= 3);
+    //   (battlePatch.position.y -= 3);
   } else if (keys.ArrowLeft.pressed) {
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -353,7 +379,7 @@ function animate() {
         movable.position.x += 3;
       });
     //   (mandrake.position.x += 3),
-    //   (testBoundary.position.x += 3);
+    //   (battlePatch.position.x += 3);
   } else if (keys.ArrowRight.pressed) {
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -379,7 +405,7 @@ function animate() {
         movable.position.x -= 3;
       });
     //   (mandrake.position.x -= 3),
-    //   (testBoundary.position.x -= 3);
+    //   (battlePatch.position.x -= 3);
   }
 }
 //   function collision(rect1, rect2) {
@@ -410,7 +436,7 @@ function animate() {
 //   }
 //   //   console.log(player.position.x);
 //   //   console.log(mandrake.position.x);
-//   collision(player, testBoundary);
+//   collision(player, battlePatch);
 //   console.log(mandrake.position.x);
 //   console.log(player.position.x);
 
