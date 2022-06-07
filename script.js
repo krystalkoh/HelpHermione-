@@ -65,11 +65,8 @@ const collisionsMap = [];
 for (let i = 0; i < collisions.length; i += 70) {
   collisionsMap.push(collisions.slice(i, 70 + i));
 }
-
 ///////drawing boundaries/////////
-
 const boundaries = [];
-
 //////colliding zone///////////
 //looping over each row, i=index of the subarray
 collisionsMap.forEach((row, i) => {
@@ -87,6 +84,28 @@ collisionsMap.forEach((row, i) => {
       );
   });
 });
+
+///////BATTLE PATCH///////
+
+const battleZonesMap = [];
+for (let i = 0; i < battleZoneArr.length; i += 70) {
+  battleZonesMap.push(battleZoneArr.slice(i, 70 + i));
+}
+const battleZones = [];
+battleZonesMap.forEach((row, i) => {
+  row.forEach((symbol, j) => {
+    if (symbol === 1025)
+      battleZones.push(
+        new Boundary({
+          position: {
+            x: j * 48 + offset.x,
+            y: i * 48 + offset.y,
+          },
+        })
+      );
+  });
+});
+console.log(battleZones);
 
 function rectangularCollision({ rectangle1, rectangle2 }) {
   return (
@@ -130,7 +149,13 @@ const container = document.getElementById("container");
 ////// insert ...battleZones below////
 
 // creating movables array
-const movables = [background, battlePatch, battlePatch2, ...boundaries];
+const movables = [
+  background,
+  battlePatch,
+  battlePatch2,
+  ...boundaries,
+  ...battleZones,
+];
 let moving = true;
 
 function animate() {
@@ -150,9 +175,22 @@ function animate() {
       console.log("colliding boundary");
     }
   });
+
+  battleZones.forEach((battleZone) => {
+    battleZone.draw();
+
+    if (
+      rectangularCollision({
+        rectangle1: player,
+        rectangle2: battleZone,
+      })
+    ) {
+      console.log("battleZone");
+    }
+  });
+
   player.draw();
   battlePatch.draw();
-  battlePatch2.draw();
 
   //////////forboundarycollision////////////
 
