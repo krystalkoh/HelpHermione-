@@ -192,6 +192,8 @@ h4 {
   margin: 0px 0px 0px 20px;
   position: absolute;
   transition: width 0.5s;
+  top: 40px;
+  right: 60px;
 }
 /* hermione's stats*/
 .hermioneStats {
@@ -218,6 +220,16 @@ h4 {
   height: 5px;
   background-color: green;
   margin: 0px 0px 0px 20px;
+  position: absolute;
+  bottom: 80px;
+  left: 60px;
+}
+
+.dialogueBox {
+  border: solid 1px black;
+  background-color: pink;
+  width: 200px;
+  height: 100px;
   position: absolute;
 }
 

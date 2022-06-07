@@ -1,6 +1,9 @@
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 
+const battle = {
+  initiated: false,
+};
 //creating the canvas
 canvas.width = 1024;
 canvas.height = 576;
@@ -32,7 +35,11 @@ const battleBackground = new backgroundClass({
 //creating hermione class in canvas
 
 const battlePatch = new Boundary({
-  position: { x: 750, y: 300 },
+  position: { x: 900, y: 300 },
+});
+
+const battlePatch2 = new Boundary({
+  position: { x: 900, y: 50 },
 });
 
 //might not need mandrake image...refactor
@@ -98,47 +105,6 @@ const keys = {
   ArrowRight: { pressed: false },
 };
 
-// class HealthBar{
-//     constructor(element, initialValue=100){
-//         this.fillElem=document.querySelector(".hermioneFullHealth");
-//         console.log(this.fellElem)
-//         this.setValue(initialValue)
-// setValue(newValue) {
-// this.value = newValue;
-// this.update();
-//     }
-//     update(){
-//         const percentage = this.value -%
-//         this.fillElem.style.width=percentage
-//     }
-// }   }
-// }
-
-//   attack({ attack, recipient }) {
-//     const enemyHealthBar = document.querySelector(".enemyFullHealth");
-
-//pizzaRat e.g lets fight
-// console.log(battleHermione);
-// //let's fight!
-// function letsFight() {
-//   while (battleHermione.health > 0 && mandrake.health > 0) {
-//     battleHermione.fight(mandrake);
-
-//     if (battleHermione.health <= 0) {
-//       console.log(`Hermione has fainted!`);
-//       break;
-//     }
-
-//     mandrake.fight(battleHermione);
-//     if (mandrake.health <= 0) {
-//       console.log(`Mandrake has fainted!`);
-//       break;
-// }
-//   }
-// }
-
-// wingardium.addEventListener("click", attack(mandrake));
-
 const battleHermione = new Hero({
   name: "Hermione",
   health: 500,
@@ -154,84 +120,7 @@ const container = document.getElementById("container");
 // const attackBtn = document.createElement("div");
 // attackBtn.innerText = "Hello";
 // canvas.prepend(attackBtn);
-const insertOverlay = document.getElementById("insertOverlay");
-
-function animateBattle() {
-  const overlay = document.createElement("div");
-  overlay.setAttribute("id", "overlay");
-  //   overlay.classList.add("blink");
-  container.append(overlay);
-
-  const mandrakeImg = document.createElement("img");
-  mandrakeImg.src = "./assets/img/mandrake.png";
-  mandrakeImg.className = "mandrake";
-  overlay.appendChild(mandrakeImg);
-
-  const battleHermioneImg = document.createElement("img");
-  battleHermioneImg.src = "./assets/img/hermioneBattle.png";
-  battleHermioneImg.className = "hermione";
-  overlay.appendChild(battleHermioneImg);
-
-  const divId = document.createElement("div");
-  divId.setAttribute("id", "attackButtons");
-  overlay.appendChild(divId);
-
-  const button1 = document.createElement("button");
-  button1.className = "attack1";
-  button1.innerText = "Wingardium Leviosa";
-  overlay.appendChild(button1);
-
-  const button2 = document.createElement("button");
-  button2.className = "attack2";
-  button2.innerText = "Obliviate";
-  overlay.appendChild(button2);
-
-  const button3 = document.createElement("button");
-  button3.className = "attack3";
-  button3.innerText = "Petrificus Totalus";
-  overlay.appendChild(button3);
-
-  button1.addEventListener("click", (e) => {
-    console.log(battleHermione.announceHealth());
-    // if this is working correctly??
-
-    //    while (battleHermione.health>0 && mandrake.health>0){
-    battleHermione.attack(mandrake);
-    if (mandrake.health < 0) {
-      alert("mandrake died");
-      overlay.remove();
-    } else {
-      mandrake.attack(battleHermione);
-    }
-
-    //   console.log(battleHermione.announceHealth());
-
-    //   overlay.remove();
-    //   animate();
-
-    if (battleHermione.health < 0) {
-      alert("game over");
-    }
-  });
-
-  //   const attackBtn = (e) => {
-  //     console.log(e.currentTarget);
-  //     e.currentTarget.addEventListener("click", (e) => {
-  //       e.currentTarget.innerText = "Attacked!";
-  //       battleHermione.attack(mandrake);
-  //     });
-  //   };
-  //   attackBtn();
-}
-//   const mandrake = new Enemy({
-//     name: "Mandrake",
-//     image: mandrakeImg,
-//     //   position: { x: 650, y: 80 },
-//     //
-//     weapons: { cry: 40 },
-//     health: 50,
-//   });
-
+// const insertOverlay = document.getElementById("insertOverlay");
 //   window.requestAnimationFrame(animateBattle);
 //   battleBackground.draw();
 //   //   attackDiv.appendChild(attackOn);
@@ -240,17 +129,14 @@ function animateBattle() {
 
 ////// insert ...battleZones below////
 
-const battle = {
-  initiated: false,
-};
-
 // creating movables array
-
-const movables = [background, battlePatch, ...boundaries];
+const movables = [background, battlePatch, battlePatch2, ...boundaries];
+let moving = true;
 
 function animate() {
   //adding infinite loop so character can move
   const animationId = window.requestAnimationFrame(animate);
+  //   console.log(animationId);
   background.draw();
   boundaries.forEach((boundary) => {
     boundary.draw();
@@ -266,40 +152,10 @@ function animate() {
   });
   player.draw();
   battlePatch.draw();
-
-  //   console.log(boundaries);
-
-  //transition to battle scene
-  if (battle.initiated) return;
-  //activating battle
-
-  if (
-    player.position.x + player.width >= battlePatch.position.x &&
-    player.position.x <= battlePatch.position.x + battlePatch.width &&
-    player.position.y + player.height >= battlePatch.position.y &&
-    player.position.y <= battlePatch.position.y + battlePatch.height
-  ) {
-    console.log("collide");
-    battle.initiated = true;
-    // transition to battle background
-    //deactivate current animation loop
-    window.cancelAnimationFrame(animationId);
-
-    ///FOLLOWING IS TRANSITION TO BATTLE SCENE...HAFTA USE CSS..THINK AGAIN
-    // function activateBattle() {
-    //   const element = document.querySelector(".battleBackgroundOff");
-    //   element.classList.toggle("battleBackgroundOn");
-    // }
-    // activateBattle();
-
-    //activate a new animation loop
-    animateBattle();
-
-    // return true;
-  }
+  battlePatch2.draw();
 
   //////////forboundarycollision////////////
-  let moving = true;
+
   if (keys.ArrowUp.pressed) {
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -315,16 +171,47 @@ function animate() {
           },
         })
       ) {
-        // console.log("colliding boundary");
+        console.log("colliding boundary");
         moving = false;
         break;
       }
     }
+    if (battle.initiated) return true;
+    if (
+      rectangularCollision({
+        rectangle1: player,
+        rectangle2: battlePatch,
+      })
 
-    if (moving)
+      //   player.position.x + player.width >= battlePatch.position.x &&
+      //   player.position.x <= battlePatch.position.x + battlePatch.width &&
+      //   player.position.y + player.height >= battlePatch.position.y &&
+    ) {
+      console.log("initiate battle");
+      battle.initiated = true;
+      animateBattle();
+    }
+    if ((moving = true))
       movables.forEach((movable) => {
         movable.position.y += 3;
       });
+    //  if (battle.initiated) return true;
+    // if (
+    //   rectangularCollision({
+    //     rectangle1: player,
+    //     rectangle2: battlePatch,
+    //   })
+
+    //   //   player.position.x + player.width >= battlePatch.position.x &&
+    //   //   player.position.x <= battlePatch.position.x + battlePatch.width &&
+    //   //   player.position.y + player.height >= battlePatch.position.y &&
+    // ) {
+    //   console.log("initiate battle");
+    //   battle.initiated = true;
+    //   animateBattle();
+    // }
+    //   player.position.y <= battlePatch.position.y + battlePatch.height
+    // while(battleHermione.health<0){
     //   (mandrake.position.y += 3),
     //   (battlePatch.position.y += 3);
   } else if (keys.ArrowDown.pressed) {
@@ -347,6 +234,7 @@ function animate() {
         break;
       }
     }
+
     if (moving)
       movables.forEach((movable) => {
         movable.position.y -= 3;
@@ -368,7 +256,7 @@ function animate() {
           },
         })
       ) {
-        // console.log("colliding boundary");
+        console.log("colliding boundary");
         moving = false;
         break;
       }
@@ -408,41 +296,87 @@ function animate() {
     //   (battlePatch.position.x -= 3);
   }
 }
-//   function collision(rect1, rect2) {
-//     const left1 = rect1.position.x;
-//     const top1 = rect1.position.y;
-//     const right1 = rect1.position.x + this.width;
-//     const bottom1 = rect1.position.y + this.height;
 
-//     // const myLeft = this.aLeft;
-//     // const myRight = this.aRight;
-//     // const myTop = this.aTop;
-//     // const myBottom = this.aBottom;
-
-//     const left2 = rect2.position.x;
-//     const top2 = rect2.position.y;
-//     const right2 = rect2.position.x + this.width;
-//     const bottom2 = rect2.position.y + this.height;
-//     // const otherLeft = this.bLeft;
-//     // const otherRight = this.bRight;
-//     // const otherBottom = this.bBottom;
-//     // const otherTop = this.bTop;
-
-//     if (bottom1 < top2) console.log("collide");
-//     if (top1 > bottom2) console.log("collide");
-//     if (right1 < left2) console.log("collide");
-//     if (left1 > right2) console.log("collide");
-//     // console.log("did not collide");
-//   }
-//   //   console.log(player.position.x);
-//   //   console.log(mandrake.position.x);
-//   collision(player, battlePatch);
-//   console.log(mandrake.position.x);
-//   console.log(player.position.x);
-
-//mandrake position changes, but hermione position always stays at 444
 animate();
 
+function animateBattle() {
+  const overlay = document.createElement("div");
+  overlay.setAttribute("id", "overlay");
+  //   overlay.classList.add("blink");
+  container.append(overlay);
+
+  const mandrakeImg = document.createElement("img");
+  mandrakeImg.src = "./assets/img/mandrake.png";
+  mandrakeImg.className = "mandrake";
+  overlay.appendChild(mandrakeImg);
+
+  const battleHermioneImg = document.createElement("img");
+  battleHermioneImg.src = "./assets/img/hermioneBattle.png";
+  battleHermioneImg.className = "hermione";
+  overlay.appendChild(battleHermioneImg);
+
+  const divId = document.createElement("div");
+  divId.setAttribute("id", "attackButtons");
+  overlay.appendChild(divId);
+
+  const button1 = document.createElement("button");
+  button1.className = "attack1";
+  button1.innerText = "Wingardium Leviosa";
+  overlay.appendChild(button1);
+
+  const button2 = document.createElement("button");
+  button2.className = "attack2";
+  button2.innerText = "Obliviate";
+  overlay.appendChild(button2);
+
+  const button3 = document.createElement("button");
+  button3.className = "attack3";
+  button3.innerText = "Petrificus Totalus";
+  overlay.appendChild(button3);
+
+  const hermioneFullHealth = document.createElement("div");
+  hermioneFullHealth.className = "hermioneFullHealth";
+  hermioneFullHealth.innerText = battleHermione.health;
+  overlay.appendChild(hermioneFullHealth);
+
+  const mandrakeFullHealth = document.createElement("div");
+  mandrakeFullHealth.className = "enemyFullHealth";
+  mandrakeFullHealth.innerText = mandrake.health;
+  overlay.appendChild(mandrakeFullHealth);
+
+  //   const dialogueBox = document.createElement("div");
+  //   dialogueBox.className = "dialogueBox";
+  //   dialogueBox.innerText = battleHermione.announceResults();
+  //   overlay.appendChild(dialogueBox);
+
+  button1.addEventListener("click", (e) => {
+    console.log(battleHermione.announceHealth());
+    // if this is working correctly??
+
+    //    while (battleHermione.health>0 && mandrake.health>0){
+    battleHermione.attack(mandrake);
+    hermioneFullHealth.innerText = battleHermione.announceHealth();
+    if (mandrake.health < 0) {
+      alert("mandrake died");
+      overlay.remove();
+      //   moving = true;
+      //   window.requestAnimationFrame(animate);
+    } else {
+      mandrake.attack(battleHermione);
+      mandrakeFullHealth.innerText = mandrake.announceHealth();
+    }
+
+    //   console.log(battleHermione.announceHealth());
+
+    //   overlay.remove();
+    //   animate();
+
+    if (battleHermione.health < 0) {
+      alert("game over");
+    }
+  });
+}
+// }
 //when keys are key down
 window.addEventListener("keydown", (e) => {
   if (e.key === "ArrowDown") {
