@@ -1,6 +1,9 @@
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 
+const battle = {
+  initiated: false,
+};
 //creating the canvas
 canvas.width = 1024;
 canvas.height = 576;
@@ -10,13 +13,6 @@ const offset = {
   y: -650,
 };
 
-//adding keys object --> default = false
-const keys = {
-  ArrowUp: { pressed: false },
-  ArrowDown: { pressed: false },
-  ArrowLeft: { pressed: false },
-  ArrowRight: { pressed: false },
-};
 //drawing image in canvas
 
 const backgroundImg = document.createElement("img");
@@ -73,7 +69,6 @@ for (let i = 0; i < collisions.length; i += 70) {
 const boundaries = [];
 //////colliding zone///////////
 //looping over each row, i=index of the subarray
-//forEach calls a function for each element in an array
 collisionsMap.forEach((row, i) => {
   //within each row, j=index that is looping over each symbol [0,1,0]
   row.forEach((symbol, j) => {
@@ -96,7 +91,6 @@ const battleZonesMap = [];
 for (let i = 0; i < battleZoneArr.length; i += 70) {
   battleZonesMap.push(battleZoneArr.slice(i, 70 + i));
 }
-
 const battleZones = [];
 battleZonesMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
@@ -111,7 +105,7 @@ battleZonesMap.forEach((row, i) => {
       );
   });
 });
-// console.log(battleZones);
+console.log(battleZones);
 
 function rectangularCollision({ rectangle1, rectangle2 }) {
   return (
@@ -121,6 +115,14 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     rectangle1.position.y <= rectangle2.position.y + rectangle2.height
   );
 }
+
+//adding keys object --> default = false
+const keys = {
+  ArrowUp: { pressed: false },
+  ArrowDown: { pressed: false },
+  ArrowLeft: { pressed: false },
+  ArrowRight: { pressed: false },
+};
 
 const battleHermione = new Hero({
   name: "Hermione",
@@ -154,56 +156,43 @@ const movables = [
   ...boundaries,
   ...battleZones,
 ];
-
-const battle = {
-  initiated: false,
-};
-
 let moving = true;
-player.moving = true;
+
 function animate() {
   //adding infinite loop so character can move
   const animationId = window.requestAnimationFrame(animate);
   //   console.log(animationId);
   background.draw();
-  player.draw();
-  // battlePatch.draw();
+  boundaries.forEach((boundary) => {
+    boundary.draw();
+
+    if (
+      rectangularCollision({
+        rectangle1: player,
+        rectangle2: boundary,
+      })
+    ) {
+      console.log("colliding boundary");
+    }
+  });
+
   battleZones.forEach((battleZone) => {
     battleZone.draw();
-  });
-  //if battle initiated = true, skip the following code
 
-  if (battle.initiated) return;
-
-  //boundary
-  if (
-    keys.ArrowDown.pressed ||
-    keys.ArrowLeft.pressed ||
-    keys.ArrowRight.pressed ||
-    keys.ArrowUp.pressed
-  ) {
-    for (let i = 0; i < battleZones.length; i++) {
-      const battleZone = battleZones[i];
-      if (
-        rectangularCollision({
-          rectangle1: player,
-          rectangle2: battleZone,
-        }) &&
-        Math.random() < 0.1
-      ) {
-        // window.cancelAnimationFrame(animationId);
-        console.log("activate battle");
-        // battle.initiated = true;
-        animateBattle();
-        break;
-        // {
-
-        //battle initiated becomes true
-
-        // animateBattle();
-      }
+    if (
+      rectangularCollision({
+        rectangle1: player,
+        rectangle2: battleZone,
+      })
+    ) {
+      console.log("battleZone");
     }
-  }
+  });
+
+  player.draw();
+  battlePatch.draw();
+
+  //////////forboundarycollision////////////
 
   if (keys.ArrowUp.pressed) {
     for (let i = 0; i < boundaries.length; i++) {
@@ -225,15 +214,21 @@ function animate() {
         break;
       }
     }
+    if (battle.initiated) return true;
+    if (
+      rectangularCollision({
+        rectangle1: player,
+        rectangle2: battlePatch,
+      })
 
-    //   player.position.x + player.width >= battlePatch.position.x &&
-    //   player.position.x <= battlePatch.position.x + battlePatch.width &&
-    //   player.position.y + player.height >= battlePatch.position.y &&
-    // {
-    //   console.log("initiate battle");
-    //   battle.initiated = true;
-    //   animateBattle();
-    // }
+      //   player.position.x + player.width >= battlePatch.position.x &&
+      //   player.position.x <= battlePatch.position.x + battlePatch.width &&
+      //   player.position.y + player.height >= battlePatch.position.y &&
+    ) {
+      console.log("initiate battle");
+      battle.initiated = true;
+      animateBattle();
+    }
     if ((moving = true))
       movables.forEach((movable) => {
         movable.position.y += 3;
@@ -339,19 +334,14 @@ function animate() {
     //   (battlePatch.position.x -= 3);
   }
 }
+
 animate();
 
 function animateBattle() {
-  //   const dialogueBox = document.createElement("div");
-  //   dialogueBox.className = "dialogueBox";
-  //   dialogueBox.innerText = battleHermione.announceResults();
-  //   overlay.appendChild(dialogueBox);
-
-  const insertOverlay = document.querySelector("#insertOverlay");
   const overlay = document.createElement("div");
   overlay.setAttribute("id", "overlay");
   //   overlay.classList.add("blink");
-  insertOverlay.append(overlay);
+  container.append(overlay);
 
   const mandrakeImg = document.createElement("img");
   mandrakeImg.src = "./assets/img/mandrake.png";
@@ -392,6 +382,11 @@ function animateBattle() {
   mandrakeFullHealth.innerText = mandrake.health;
   overlay.appendChild(mandrakeFullHealth);
 
+  //   const dialogueBox = document.createElement("div");
+  //   dialogueBox.className = "dialogueBox";
+  //   dialogueBox.innerText = battleHermione.announceResults();
+  //   overlay.appendChild(dialogueBox);
+
   button1.addEventListener("click", (e) => {
     console.log(battleHermione.announceHealth());
     // if this is working correctly??
@@ -401,10 +396,8 @@ function animateBattle() {
     hermioneFullHealth.innerText = battleHermione.announceHealth();
     if (mandrake.health < 0) {
       alert("mandrake died");
-      battle.initiated = false;
-      insertOverlay.style.opacity = 0;
-
-      moving = true;
+      overlay.remove();
+      //   moving = true;
       //   window.requestAnimationFrame(animate);
     } else {
       mandrake.attack(battleHermione);
@@ -421,7 +414,6 @@ function animateBattle() {
     }
   });
 }
-
 // }
 //when keys are key down
 window.addEventListener("keydown", (e) => {

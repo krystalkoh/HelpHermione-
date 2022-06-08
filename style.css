@@ -32,6 +32,10 @@ body {
   bottom: 50px;
   left: 80px;
 }
+
+#insertOverlay {
+  opacity: 1;
+}
 /* 
 .battleBackgroundOff {
   background-image: url(./assets/img/battleBackground.png);
