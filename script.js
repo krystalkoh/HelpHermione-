@@ -392,22 +392,38 @@ function animateBattle() {
   mandrakeFullHealth.innerText = mandrake.health;
   overlay.appendChild(mandrakeFullHealth);
 
+  function dialogueBox() {
+    mandrake.attack(battleHermione);
+    document.querySelector("#dialogueBox").style.display = "block";
+    document.querySelector("#dialogueBox").innerHTML = `${
+      battleHermione.name
+    } attacked ${mandrake.name}! ${
+      mandrake.name
+    }'s health is now at ${mandrake.announceHealth()}.
+ <br>
+    ${mandrake.name} attacked  ${battleHermione.name}!
+  ${battleHermione.name}'s health is now ${battleHermione.announceHealth()}.`;
+  }
+
   button1.addEventListener("click", (e) => {
     console.log(battleHermione.announceHealth());
     // if this is working correctly??
 
     //    while (battleHermione.health>0 && mandrake.health>0){
     battleHermione.attack(mandrake);
-    hermioneFullHealth.innerText = battleHermione.announceHealth();
-    if (mandrake.health < 0) {
-      alert("mandrake died");
-      battle.initiated = false;
-      insertOverlay.style.opacity = 0;
 
-      moving = true;
+    mandrake.announceHealth();
+    hermioneFullHealth.innerText = battleHermione.announceHealth();
+
+    if (mandrake.health <= 0) {
+      alert("Mandrake died! Back to game.");
+      insertOverlay.style.opacity = 0;
+      battle.initiated = false;
+      document.querySelector("#dialogueBox").style.display = "none";
+      // moving = true;
       //   window.requestAnimationFrame(animate);
     } else {
-      mandrake.attack(battleHermione);
+      dialogueBox();
       mandrakeFullHealth.innerText = mandrake.announceHealth();
     }
 
@@ -416,7 +432,67 @@ function animateBattle() {
     //   overlay.remove();
     //   animate();
 
-    if (battleHermione.health < 0) {
+    if (battleHermione.health <= 0) {
+      alert("game over");
+    }
+  });
+
+  button2.addEventListener("click", (e) => {
+    console.log(battleHermione.announceHealth());
+    // if this is working correctly??
+
+    //    while (battleHermione.health>0 && mandrake.health>0){
+    battleHermione.attack(mandrake);
+    hermioneFullHealth.innerText = battleHermione.announceHealth();
+    if (mandrake.health <= 0) {
+      alert("Mandrake died! Back to game.");
+      insertOverlay.style.opacity = 0;
+
+      battle.initiated = false;
+      document.querySelector("#dialogueBox").style.display = "none";
+      // moving = true;
+      //   window.requestAnimationFrame(animate);
+    } else {
+      // mandrake.attack(battleHermione);
+      dialogueBox();
+      mandrakeFullHealth.innerText = mandrake.announceHealth();
+    }
+
+    //   console.log(battleHermione.announceHealth());
+
+    //   overlay.remove();
+    //   animate();
+
+    if (battleHermione.health <= 0) {
+      alert("game over");
+    }
+  });
+  button3.addEventListener("click", (e) => {
+    console.log(battleHermione.announceHealth());
+    // if this is working correctly??
+
+    //    while (battleHermione.health>0 && mandrake.health>0){
+    battleHermione.attack(mandrake);
+    hermioneFullHealth.innerText = battleHermione.announceHealth();
+    if (mandrake.health <= 0) {
+      alert("Mandrake died! Back to game.");
+      insertOverlay.style.opacity = 0;
+      battle.initiated = false;
+      document.querySelector("#dialogueBox").style.display = "none";
+      // moving = true;
+      //   window.requestAnimationFrame(animate);
+    } else {
+      // mandrake.attack(battleHermione);
+      dialogueBox();
+      mandrakeFullHealth.innerText = mandrake.announceHealth();
+    }
+
+    //   console.log(battleHermione.announceHealth());
+
+    //   overlay.remove();
+    //   animate();
+
+    if (battleHermione.health <= 0) {
       alert("game over");
     }
   });
