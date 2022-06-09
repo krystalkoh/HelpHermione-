@@ -236,6 +236,8 @@ const mandrake = new Hero({
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0,
 ];
+
+
 **First, store the above positions as as array. 
 Use a for loop to slice out the width of the tiled map (70 tiles wide in this case) into subarrays.**
 
