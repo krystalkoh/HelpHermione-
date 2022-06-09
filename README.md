@@ -1,4 +1,4 @@
-### Help Hermione! ###
+### Help Hermione! 
 
 Aim of the game: Help Hermione to find Ron. 
 But beware, there are hidden beasts waiting to attack. Defeat the beasts and rescue Ron in this pokemon-style Harry Potter game!
@@ -16,9 +16,9 @@ And when you finally find Ron, true love prevails!
 
 *** 
 
-#### Difficulties encountered during the game ###
-##### Entering and exiting the battle scene #####
-######Code for main scene#######
+### Difficulties encountered during the game 
+##### Entering and exiting the battle scene
+###### Code for main scene
 
 function animate() {
   window.requestAnimationFrame(animate);
@@ -30,7 +30,7 @@ function animate() {
   player.draw();
   ron.draw();
 
-######Code for battle scene#######
+###### Code for battle scene
 
 function animateBattle() {
   const insertOverlay = document.querySelector("#insertOverlay");
@@ -68,7 +68,7 @@ Putting the battle scene on an overlapping div instead of canvas. This allowed m
 
 ***
 
-##### Things I would change if I redid the project#####
+##### Things I would change if I redid the project
 Important to keep the code dynamic instead of assigning fixed values, as it would have made it easier to create an array of enemies instead of just one
 
 class Hero {
@@ -101,7 +101,7 @@ const mandrake = new Hero({
   
   ***
   
-  ##### Code that you may find interesting ##### 
+  ##### Code that you may find interesting 
  **Drawing the battle patch from an external editor (Tiled)**
   
   ![collisions](/assets/screenshots/collisionsss.jpeg)
