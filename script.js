@@ -346,7 +346,7 @@ function animateBattle() {
     hermioneFullHealth.innerText = battleHermione.announceHealth();
 
     if (mandrake.health <= 0) {
-      alert("Mandrake died! Head back to capture more beasts!");
+      alert("Mandrake died! Head back to capture more beasts.");
       const allOverlays = document.querySelectorAll("#overlay");
       for (let eachOverlay of allOverlays) {
         eachOverlay.remove();
@@ -366,7 +366,7 @@ function animateBattle() {
     battleHermione.attack(mandrake);
     hermioneFullHealth.innerText = battleHermione.announceHealth();
     if (mandrake.health <= 0) {
-      alert("Mandrake died! Back to game.");
+      alert("Mandrake died! Head back to capture more beasts.");
       const allOverlays = document.querySelectorAll("#overlay");
       for (let eachOverlay of allOverlays) {
         eachOverlay.remove();
