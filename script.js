@@ -367,7 +367,9 @@ function animateBattle() {
     hermioneFullHealth.innerText = battleHermione.announceHealth();
 
     if (mandrake.health <= 0) {
-      alert("Mandrake died! Head back to capture more beasts.");
+      alert(
+        "You defeated the Mandrake! Head back to continue your search for Ron."
+      );
       const allOverlays = document.querySelectorAll("#overlay");
       for (let eachOverlay of allOverlays) {
         eachOverlay.remove();
@@ -387,7 +389,9 @@ function animateBattle() {
     battleHermione.attack(mandrake);
     hermioneFullHealth.innerText = battleHermione.announceHealth();
     if (mandrake.health <= 0) {
-      alert("Mandrake died! Head back to capture more beasts.");
+      alert(
+        "You defeated the Mandrake! Head back to continue your search for Ron."
+      );
       const allOverlays = document.querySelectorAll("#overlay");
       for (let eachOverlay of allOverlays) {
         eachOverlay.remove();
@@ -405,7 +409,9 @@ function animateBattle() {
     battleHermione.attack(mandrake);
     hermioneFullHealth.innerText = battleHermione.announceHealth();
     if (mandrake.health <= 0) {
-      alert("Mandrake died! Head back to capture more beasts.");
+      alert(
+        "You defeated the Mandrake! Head back to continue your search for Ron."
+      );
       // insertOverlay.style.opacity = 0;
       // document.querySelector("#dialogueBox").style.display = "none";
       const allOverlays = document.querySelectorAll("#overlay");
