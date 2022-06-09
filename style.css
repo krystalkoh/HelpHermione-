@@ -233,42 +233,12 @@ h4 {
   left: 60px;
 }
 
-<<<<<<< Updated upstream
-=======
-.backpack {
-  width: 40px;
-  height: 40px;
-  background-color: violet;
+.ron {
   position: absolute;
-  top: 0px;
+  width: 1024px;
+  height: 576px;
+  background-color: white;
 }
-
->>>>>>> Stashed changes
-/* .dialogueBox {
-  border: solid 1px black;
-  background-color: pink;
-  width: 200px;
-  height: 100px;
-  position: absolute;
-} */
-
-/* blinking transition to battle */
-/* @keyframes blinking {
-  0% {
-    color: #ff3d50;
-  }
-
-  50% {
-    color: #55d66b;
-  }
-  100% {
-    color: #222291;
-  }
-}
-
-.blink {
-  animation: blinking 10s infinite;
-} */
 
 .dialogueBox {
   position: absolute;

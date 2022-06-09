@@ -19,6 +19,17 @@ class Boundary {
   }
 }
 
+class Ron {
+  constructor({ position }) {
+    (this.position = position), (this.width = 48), (this.height = 48);
+  }
+
+  draw() {
+    context.fillStyle = "rgba(255,0,0,1)";
+    context.fillRect(this.position.x, this.position.y, 48, 48);
+  }
+}
+
 class Sprite {
   //   static width = 53;
   //   static height = 60;

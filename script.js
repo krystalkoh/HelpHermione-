@@ -38,10 +38,12 @@ const battleBackground = new backgroundClass({
   position: { x: 0, y: 0 },
 });
 
-//creating hermione class in canvas
-const battlePatch = new Boundary({
-  position: { x: 900, y: 300 },
+//creating hidden Ron
+
+const ron = new Ron({
+  position: { x: 1800, y: 1000 },
 });
+
 const player = new Sprite({
   position: {
     x: canvas.width - 510,
@@ -132,7 +134,7 @@ const mandrake = new Hero({
 const container = document.getElementById("container");
 const x = document.querySelector("audio");
 // creating movables array
-const movables = [background, battlePatch, ...boundaries, ...battleZones];
+const movables = [background, ron, ...boundaries, ...battleZones];
 
 const battle = {
   initiated: false,
@@ -150,6 +152,7 @@ function animate() {
   });
 
   player.draw();
+  ron.draw();
   x.play();
 
   //if battle initiated =false, stop the rest of this function
@@ -276,6 +279,24 @@ function animate() {
       }
     }
   }
+  if (
+    keys.ArrowDown.pressed ||
+    keys.ArrowLeft.pressed ||
+    keys.ArrowRight.pressed ||
+    keys.ArrowUp.pressed
+  ) {
+    if (
+      rectangularCollision({
+        rectangle1: player,
+        rectangle2: ron,
+      })
+    ) {
+      findRon();
+      console.log("found ron!");
+
+      // battle.initiated = true;
+    }
+  }
 }
 animate();
 
@@ -399,6 +420,15 @@ function animateBattle() {
       alert("game over");
     }
   });
+}
+
+function findRon() {
+  const foundRon = document.createElement("img");
+  foundRon.src = "./assets/img/ron.png";
+  foundRon.className = "ron";
+  const bodyDiv = document.querySelector("#container");
+  bodyDiv.appendChild(foundRon);
+  canvas.remove();
 }
 
 // }
