@@ -268,11 +268,7 @@ function animate() {
           rectangle1: player,
           rectangle2: battleZone,
         }) &&
-<<<<<<< Updated upstream
-        Math.random() < 0.001
-=======
         Math.random() < 0.005
->>>>>>> Stashed changes
       ) {
         console.log("activate battle");
         // battle.initiated = true;
