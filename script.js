@@ -1,10 +1,10 @@
+//creating the canvas
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
-
-//creating the canvas
 canvas.width = 1024;
 canvas.height = 576;
 
+//offset for the picture position
 const offset = {
   x: -1000,
   y: -650,
@@ -17,50 +17,37 @@ const keys = {
   ArrowLeft: { pressed: false },
   ArrowRight: { pressed: false },
 };
-//drawing image in canvas
 
+//creating constants in image
 const backgroundImg = document.createElement("img");
 backgroundImg.src = "./assets/img/backgroundMap.png";
 const hermione = document.createElement("img");
 hermione.src = "./assets/img/singleHermione2.png";
-
 const battleBackgroundImage = document.createElement("img");
 battleBackgroundImage.src = "./assets/img/battleBackground.png";
 
-// const attackDiv = document.getElementById("attack");
-// const attackOn = document.createElement("div");
-// attackOn.className = "attackBar";
+//creating background moving class
+const background = new backgroundClass({
+  image: backgroundImg,
+  position: { x: offset.x, y: offset.y },
+});
 
+//creating battleBackground class
 const battleBackground = new backgroundClass({
   image: battleBackgroundImage,
   position: { x: 0, y: 0 },
 });
 
 //creating hermione class in canvas
-
 const battlePatch = new Boundary({
   position: { x: 900, y: 300 },
 });
-
-const battlePatch2 = new Boundary({
-  position: { x: 900, y: 50 },
-});
-
-//might not need mandrake image...refactor
-
 const player = new Sprite({
   position: {
     x: canvas.width - 510,
     y: canvas.height - 250,
   },
   image: hermione,
-  //   width: this.width,
-  //   height: this.height,
-});
-//creating background moving class
-const background = new backgroundClass({
-  image: backgroundImg,
-  position: { x: offset.x, y: offset.y },
 });
 
 ////////colliding zone///////////
@@ -69,9 +56,7 @@ const collisionsMap = [];
 for (let i = 0; i < collisions.length; i += 70) {
   collisionsMap.push(collisions.slice(i, 70 + i));
 }
-///////drawing boundaries/////////
 const boundaries = [];
-//////colliding zone///////////
 //looping over each row, i=index of the subarray
 //forEach calls a function for each element in an array
 collisionsMap.forEach((row, i) => {
@@ -91,19 +76,30 @@ collisionsMap.forEach((row, i) => {
 });
 
 ///////BATTLE PATCH///////
-
+// store it within an array
 const battleZonesMap = [];
+//70 is the width of the tiled map
 for (let i = 0; i < battleZoneArr.length; i += 70) {
+  //slice items out at 0, then 70 because want =0- 70, so that it'll slice out 0-70/70-140
   battleZonesMap.push(battleZoneArr.slice(i, 70 + i));
 }
-
+//only push in 1025 because that's what we want to draw
 const battleZones = [];
+//create a constructor class
+//forEach row, i indicates the index of the array row we looking at
 battleZonesMap.forEach((row, i) => {
+  //for each row, j is the index of the subarray. We push in a new Boundary class only for the symbols with 1025. j is the index we're looping over
   row.forEach((symbol, j) => {
     if (symbol === 1025)
       battleZones.push(
         new Boundary({
           position: {
+            //this gives the position based on the indices. 48 is the px width. y= i because it's going down. x is the x axis.
+            //  [
+            //0 [0, 1, 0]
+            //1 [1,0, 1 ]
+            //2 [0, 1, 0]
+            //   ]
             x: j * 48 + offset.x,
             y: i * 48 + offset.y,
           },
@@ -134,47 +130,33 @@ const mandrake = new Hero({
 
 /////////////BATTLE SCENE/////////////////////
 const container = document.getElementById("container");
-// const attackBtn = document.createElement("div");
-// attackBtn.innerText = "Hello";
-// canvas.prepend(attackBtn);
-// const insertOverlay = document.getElementById("insertOverlay");
-//   window.requestAnimationFrame(animateBattle);
-//   battleBackground.draw();
-//   //   attackDiv.appendChild(attackOn);
-//   mandrake.draw();
-//   battleHermione.draw();
-
-////// insert ...battleZones below////
-
+const x = document.querySelector("audio");
 // creating movables array
-const movables = [
-  background,
-  battlePatch,
-  battlePatch2,
-  ...boundaries,
-  ...battleZones,
-];
-
+const movables = [background, battlePatch, ...boundaries, ...battleZones];
 const battle = {
   initiated: false,
 };
-
 let moving = true;
 player.moving = true;
+
+//////////ANIMATE FUNCTION/////////////
+
 function animate() {
   //adding infinite loop so character can move
   const animationId = window.requestAnimationFrame(animate);
   //   console.log(animationId);
   background.draw();
-  player.draw();
   // battlePatch.draw();
+
   battleZones.forEach((battleZone) => {
     battleZone.draw();
   });
+
+  player.draw();
+  x.play();
+
   //if battle initiated = true, skip the following code
-
   if (battle.initiated) return;
-
   //boundary
   if (
     keys.ArrowDown.pressed ||

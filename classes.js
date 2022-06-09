@@ -1,4 +1,3 @@
-//drawing background class in canvas
 class backgroundClass {
   constructor({ image, position }) {
     this.image = image;
@@ -8,6 +7,9 @@ class backgroundClass {
     context.drawImage(this.image, this.position.x, this.position.y);
   }
 }
+
+//drawing background class in canvas
+//so that we have the image+width and height
 class Boundary {
   constructor({ position }) {
     (this.position = position), (this.width = 48), (this.height = 48);

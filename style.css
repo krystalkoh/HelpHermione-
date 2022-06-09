@@ -4,6 +4,10 @@ body {
 }
 /* main container and backgrounds */
 
+audio {
+  display: none;
+}
+
 #container {
   display: inline-block;
   position: relative;
