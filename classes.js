@@ -22,7 +22,13 @@ class Boundary {
 class Sprite {
   //   static width = 53;
   //   static height = 60;
-  constructor({ image, position, width = 70, height = 80 }) {
+  constructor({
+    image,
+    position,
+
+    width = 70,
+    height = 80,
+  }) {
     this.image = image;
     this.position = position;
     this.width = this.image.width;

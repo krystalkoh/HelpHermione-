@@ -268,7 +268,11 @@ function animate() {
           rectangle1: player,
           rectangle2: battleZone,
         }) &&
+<<<<<<< Updated upstream
         Math.random() < 0.001
+=======
+        Math.random() < 0.005
+>>>>>>> Stashed changes
       ) {
         console.log("activate battle");
         // battle.initiated = true;
@@ -346,7 +350,7 @@ function animateBattle() {
     hermioneFullHealth.innerText = battleHermione.announceHealth();
 
     if (mandrake.health <= 0) {
-      alert("Mandrake died! Back to game.");
+      alert("Mandrake died! Head back to capture more beasts!");
       const allOverlays = document.querySelectorAll("#overlay");
       for (let eachOverlay of allOverlays) {
         eachOverlay.remove();
