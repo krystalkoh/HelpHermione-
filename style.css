@@ -233,20 +233,20 @@ h4 {
   left: 60px;
 }
 
-.dialogueBox {
+/* .dialogueBox {
   border: solid 1px black;
   background-color: pink;
   width: 200px;
   height: 100px;
   position: absolute;
-}
+} */
 
 /* blinking transition to battle */
 /* @keyframes blinking {
   0% {
     color: #ff3d50;
   }
-  
+
   50% {
     color: #55d66b;
   }
@@ -258,3 +258,17 @@ h4 {
 .blink {
   animation: blinking 10s infinite;
 } */
+
+.dialogueBox {
+  position: absolute;
+  background-color: white;
+  border: 2px black solid;
+  padding: 12px;
+  top: 575px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 1000px;
+  height: 100px;
+  display: none;
+}

@@ -408,12 +408,10 @@ function animateBattle() {
 
   function dialogueBox() {
     mandrake.attack(battleHermione);
-    document.querySelector("#dialogueBox").style.display = "block";
-    document.querySelector("#dialogueBox").innerHTML = `${
-      battleHermione.name
-    } attacked ${mandrake.name}! ${
+    dialogueBox.style.display = "block";
+    dialogueBox.innerHTML = `${battleHermione.name} attacked ${
       mandrake.name
-    }'s health is now at ${mandrake.announceHealth()}.
+    }! ${mandrake.name}'s health is now at ${mandrake.announceHealth()}.
  <br>
     ${mandrake.name} attacked  ${battleHermione.name}!
   ${battleHermione.name}'s health is now ${battleHermione.announceHealth()}.`;

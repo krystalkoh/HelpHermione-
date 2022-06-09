@@ -125,7 +125,7 @@ const battleHermione = new Hero({
 
 const mandrake = new Hero({
   name: "Mandrake",
-  health: 100,
+  health: 200,
 });
 
 /////////////BATTLE SCENE/////////////////////
@@ -267,7 +267,8 @@ function animate() {
         rectangularCollision({
           rectangle1: player,
           rectangle2: battleZone,
-        })
+        }) &&
+        Math.random() < 0.001
       ) {
         console.log("activate battle");
         // battle.initiated = true;
@@ -323,14 +324,16 @@ function animateBattle() {
   mandrakeFullHealth.innerText = mandrake.health;
   overlay.appendChild(mandrakeFullHealth);
 
-  function dialogueBox() {
+  const dialogueBox = document.createElement("div");
+  dialogueBox.className = "dialogueBox";
+  overlay.appendChild(dialogueBox);
+
+  function dialogue() {
     mandrake.attack(battleHermione);
-    document.querySelector("#dialogueBox").style.display = "block";
-    document.querySelector("#dialogueBox").innerHTML = `${
-      battleHermione.name
-    } attacked ${mandrake.name}! ${
+    dialogueBox.style.display = "block";
+    dialogueBox.innerHTML = `${battleHermione.name} attacked ${
       mandrake.name
-    }'s health is now at ${mandrake.announceHealth()}.
+    }! ${mandrake.name}'s health is now at ${mandrake.announceHealth()}.
  <br>
     ${mandrake.name} attacked  ${battleHermione.name}!
   ${battleHermione.name}'s health is now ${battleHermione.announceHealth()}.`;
@@ -349,7 +352,8 @@ function animateBattle() {
         eachOverlay.remove();
       }
     } else {
-      dialogueBox();
+      dialogue();
+
       mandrakeFullHealth.innerText = mandrake.announceHealth();
     }
     if (battleHermione.health <= 0) {
@@ -368,7 +372,7 @@ function animateBattle() {
         eachOverlay.remove();
       }
     } else {
-      dialogueBox();
+      dialogue();
       mandrakeFullHealth.innerText = mandrake.announceHealth();
     }
     if (battleHermione.health <= 0) {
@@ -388,7 +392,7 @@ function animateBattle() {
         eachOverlay.remove();
       }
     } else {
-      dialogueBox();
+      dialogue();
       mandrakeFullHealth.innerText = mandrake.announceHealth();
     }
     if (battleHermione.health <= 0) {
