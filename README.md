@@ -61,7 +61,7 @@ const dialogueBox = document.createElement("div");
   dialogueBox.className = "dialogueBox";
   overlay.appendChild(dialogueBox);
 
-As the main scene was drawn on canvas, I initially wanted to put the battle scene on canvas as well. However, when I attached event listeners to the buttons, the event listener function would not work as it was an animation loop. It was hence difficult to  to enter and exit the battle scene, as the battle scene also required plenty of graphics.
+As the main scene was drawn on canvas, I initially wanted to put the battle scene on canvas as well. However, when I attached event listeners to the buttons, the event listener function would not work as it was an animation loop. It was hence difficult to enter and exit the battle scene, as the battle scene also required plenty of graphics (different divs).
 
 Solution: 
 Putting the battle scene on an overlapping div instead of canvas. This allowed me to attach event listeners and also only appending elements I wanted to make appear only when animateBattle function was called. 
