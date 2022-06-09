@@ -25,7 +25,7 @@ class Ron {
   }
 
   draw() {
-    context.fillStyle = "rgba(255,0,0,1)";
+    context.fillStyle = "rgba(255,0,0,0)";
     context.fillRect(this.position.x, this.position.y, 48, 48);
   }
 }
