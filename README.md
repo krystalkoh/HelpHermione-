@@ -238,15 +238,14 @@ const mandrake = new Hero({
 ];
 
 
-**First, store the above positions as as array. 
-Use a for loop to slice out the width of the tiled map (70 tiles wide in this case) into subarrays.**
+**First, set the above array as a constant. Then, use a for loop to slice out the width of the tiled map (70 tiles wide in this case) into subarrays (so that it'll follow the shape (height and width) of the map.**
 
 const battleZonesMap = [];
 for (let i = 0; i < battleZoneArr.length; i += 70) {
   battleZonesMap.push(battleZoneArr.slice(i, 70 + i));
 }
 
-**Where there's the number 1025, it indicates that at that position, there is supposed to be a battle patch there. Hence, for every position there's 1025, we'll draw that position out using a for loop and the forEach function of the constructor class. Position is calculated based on the index of the array. 48(px) is the width of the patch. i represents the position on the y axis and j represents the position on the x axis
+**Where there's the number 1025, it indicates that at that position, there is supposed to be a battle patch there. Hence, for every position there's 1025, we'll draw that position out using a for loop and the forEach function to draw out the patch using the constructor class. Position is calculated based on the index of the array. 48(px) is the width of the patch. i represents the position on the y axis and j represents the position on the x axis
 
 **Example
   0 [0.  , 1025,   0]
