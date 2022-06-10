@@ -252,8 +252,7 @@ for (let i = 0; i < battleZoneArr.length; i += 70) {
 **Example<br>
   0 [0.  , 1025,   0]<br>
   1 [1025, 0   ,1025]<br>
-  2 [0.  , 1025,   0]<br>
-    ]**
+  2 [0.  , 1025,   0]]**
 
 
 class Boundary {
