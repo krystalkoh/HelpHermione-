@@ -284,7 +284,7 @@ battleZonesMap.forEach((row, i) => {<br>
   });<br>
 });<br>
 
-**creating a function to calculate if the player and the patch collides**
+**Creating a function to calculate if the player and the patch collides**
 
 function rectangularCollision({ rectangle1, rectangle2 }) {<br>
   return (<br>
@@ -295,7 +295,7 @@ function rectangularCollision({ rectangle1, rectangle2 }) {<br>
   );
 }
 
-**if any of the arrow keys are pressed and if there's a collision, there'll be a 0.2% chance that the battle will be activated**
+**If any of the arrow keys are pressed and if there's a collision, there'll be a 0.2% chance that the battle will be activated**
 
 if (<br>
     keys.ArrowDown.pressed ||<br>
