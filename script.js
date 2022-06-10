@@ -1,3 +1,5 @@
+"use strict";
+
 //creating the canvas
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
@@ -133,6 +135,7 @@ const mandrake = new Hero({
 /////////////BATTLE SCENE/////////////////////
 const container = document.getElementById("container");
 const x = document.querySelector("audio");
+x.volume = 0.5;
 // creating movables array
 const movables = [background, ron, ...boundaries, ...battleZones];
 
