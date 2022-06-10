@@ -249,10 +249,10 @@ for (let i = 0; i < battleZoneArr.length; i += 70) {
 
 **Where there's the number 1025, it indicates that at that position, there is supposed to be a battle patch there. Hence, for every position there's 1025, we'll draw that position out using a for loop and the forEach function to draw out the patch using the constructor class. Position is calculated based on the index of the array. 48(px) is the width of the patch. i represents the position on the y axis and j represents the position on the x axis**
 
-**Example
-  0 [0.  , 1025,   0]
-  1 [1025, 0   ,1025]
-  2 [0.  , 1025,   0]
+**Example<br>
+  0 [0.  , 1025,   0]<br>
+  1 [1025, 0   ,1025]<br>
+  2 [0.  , 1025,   0]<br>
     ]**
 
 
